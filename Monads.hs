@@ -7,3 +7,4 @@ module Monands where
     class Functor m => MonadAlt m where
         join :: m(m a) -> m a
         returnAlt :: a -> m a
+

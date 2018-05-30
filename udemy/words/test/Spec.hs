@@ -5,5 +5,4 @@ main :: IO ()
 main = hspec $ do
     describe "How to write a test" $ do
         it "Should be able to run tests" $ do
-            someString `shouldBe` "another string"
-            someString `shouldBe` "someString"
+            formatGrid grid `shouldBe` unlines grid

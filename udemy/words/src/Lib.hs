@@ -2,17 +2,19 @@ module Lib
     ( formatGrid
     , outputGrid
     , skew
+    , findWordInCellLinePrefix
     , findWordInLine
     , findWord
     , findWords
     , zipOverGrid
     , zipOverGridWith
     , cell2char
+    , gridWithCoords
     , Cell(Cell,Indent)
     ) where
 
-import Data.List (isInfixOf, transpose)
-import Data.Maybe (catMaybes)
+import           Data.List  (isInfixOf, transpose)
+import           Data.Maybe (catMaybes, listToMaybe)
 
 
 data Cell = Cell (Int, Int) Char
@@ -31,7 +33,7 @@ mapOverGrid :: (a -> b) -> Grid a -> Grid b
 mapOverGrid = map . map
 
 
-coordsGrid :: Grid (Integer, Integer)
+coordsGrid :: Grid (Int, Int)
 coordsGrid =
     let rows = map repeat [0..]
         cols = repeat [0..]
@@ -52,11 +54,16 @@ formatGrid = unlines . mapOverGrid cell2char
 
 cell2char :: Cell -> Char
 cell2char (Cell _ c) = c
-cell2char Indent = '?'
+cell2char Indent     = '?'
 
 
-findWordInLine :: String -> [Cell] -> Maybe [[Cell]]
-findWordInLine = undefined
+findWordInLine :: String -> [Cell] -> Maybe [Cell]
+findWordInLine _ [] = Nothing
+findWordInLine word line =
+    let found = findWordInCellLinePrefix [] word line
+    in case found of
+        Nothing     -> findWordInLine word (tail line)
+        cs@(Just _) -> cs
 
 
 skew :: Grid Cell -> Grid Cell
@@ -80,13 +87,21 @@ getLines grid =
 
 
 findWord :: Grid Cell -> String -> Maybe [Cell]
-findWord grid word = undefined
---    let lines = getLines grid
---        found = or $ map (findWordInLine word) lines
---    in if found then Just word else Nothing
+findWord grid word =
+    let lines = getLines grid
+        foundWords = map (findWordInLine word) lines
+    in listToMaybe (catMaybes foundWords)
 
 
 findWords :: Grid Cell -> [String] -> [[Cell]]
 findWords grid words =
     let foundWords = map (findWord grid) words
     in catMaybes foundWords
+
+
+findWordInCellLinePrefix :: [Cell] -> String -> [Cell] -> Maybe [Cell]
+findWordInCellLinePrefix acc (chr : chrs) (cell : cells) | chr == cell2char cell =
+    findWordInCellLinePrefix (cell : acc) chrs cells
+findWordInCellLinePrefix acc [] _ = Just $ reverse acc
+findWordInCellLinePrefix _ _ _ = Nothing
+

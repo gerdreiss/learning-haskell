@@ -1,22 +1,35 @@
-import Test.Hspec
-import Lib
-import Data
+{-# LANGUAGE TemplateHaskell #-}
+
+import           Data
+import           Lib
+import           Test.Hspec
+
+
+gwc = gridWithCoords grid
+
+testFindWord word =
+    let (Just result) = findWord gwc word
+        string = map cell2char result
+    in string `shouldBe` word
+
 
 main :: IO ()
 main = hspec $ do
     describe "formatGrid" $ do
         it "Should concatenate everyline with a newline" $ do
-            formatGrid grid `shouldBe` unlines grid
+            formatGrid (gridWithCoords ["abc", "def"]) `shouldBe` "abc\ndef\n"
 
     describe "findWord" $ do
         it "Should find words that exist on the Grid" $ do
-            findWord grid "HASKELL" `shouldBe` Just "HASKELL"
-            findWord grid "PERL" `shouldBe` Just "PERL"
+            testFindWord "HASKELL"
+            testFindWord "PERL"
         it "Should not find words that do not exist on the Grid" $ do
-            findWord grid "SCALA" `shouldBe` Nothing
+            findWord gwc "SCALA" `shouldBe` Nothing
 
     describe "findWords" $ do
         it "Should find all the words that exist on the Grid" $ do
-            findWords grid languages `shouldBe` languages
+            let found = findWords (gridWithCoords grid) languages
+                asString = map (map cell2char) found
+            asString `shouldBe` languages
         it "Should not find the words that do not exist on the Grid" $ do
-            findWords grid ["SCALA", "JAVA"] `shouldBe` []
+            findWords (gridWithCoords grid) ["SCALA", "JAVA"] `shouldBe` []

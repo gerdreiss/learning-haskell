@@ -23,12 +23,13 @@ dependencies:
 - base >= 4.7 && < 5
 - hspec >= 2.4.8
 - containers
+- random
 
 library:
   source-dirs: src
 
 executables:
-  words-exe:
+  words:
     main:                Main.hs
     source-dirs:         app
     ghc-options:

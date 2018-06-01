@@ -11,26 +11,48 @@ module Lib
     , cell2char
     , gridWithCoords
     , Cell(Cell,Indent)
+    , Game(gameGrid, gameWords)
+    , makeGame
+    , totalWords
+    , score
+    , playGame
+    , formatGame
+    , completed
     ) where
 
+-- imports
 import           Data.List  (isInfixOf, transpose)
 import           Data.Maybe (catMaybes, listToMaybe)
+import qualified Data.Map as M
 
-
-data Cell = Cell (Int, Int) Char
-          | Indent
-           deriving (Eq, Ord, Show)
-
+-- types
 type Grid a = [[a]]
 
-zipOverGrid :: Grid a -> Grid b -> Grid (a, b)
-zipOverGrid = zipWith zip
+-- data structs
+data Cell = Cell (Int, Int) Char | Indent deriving (Eq, Ord, Show)
+data Game = Game {
+                gameGrid :: Grid Cell,
+                gameWords :: M.Map String (Maybe [Cell]))
+            }
+            deriving (Show)
+
+
+-- create game
+makeGame :: Grid Char -> [String] -> Game
+makeGame grid words =   
+    let gwc = gridWithCoords grid
+        tuplify word = (word, Nothing)
+        list = map tuplify words
+        dict = M.fromList list
+    in Game gwc dict
+
+
+gridWithCoords :: Grid Char -> Grid Cell
+gridWithCoords grid = zipOverGridWith Cell coordsGrid grid
+
 
 zipOverGridWith :: (a -> b -> c) -> Grid a -> Grid b -> Grid c
 zipOverGridWith = zipWith . zipWith
-
-mapOverGrid :: (a -> b) -> Grid a -> Grid b
-mapOverGrid = map . map
 
 
 coordsGrid :: Grid (Int, Int)
@@ -40,21 +62,48 @@ coordsGrid =
     in zipOverGrid rows cols
 
 
-gridWithCoords :: Grid Char -> Grid Cell
-gridWithCoords grid = zipOverGridWith Cell coordsGrid grid
+zipOverGrid :: Grid a -> Grid b -> Grid (a, b)
+zipOverGrid = zipWith zip
 
 
-outputGrid :: Grid Cell -> IO ()
-outputGrid grid = putStrLn $ formatGrid grid
+-- play game
+playGame :: Game -> String -> Game
+playGame game word | not $ M.member word (gameWords game) = game
+playGame game word =
+    let foundWord = findWord (gameGrid game) word
+    in case foundWord of
+        Nothing -> game
+        Just _ ->
+            let oldDict = gameWords game
+                newDict = M.insert word foundWord oldDict
+            in game { gameWords = newDict } 
 
 
-formatGrid :: Grid Cell -> String
-formatGrid = unlines . mapOverGrid cell2char
+-- game helper functions
+totalWords :: Game -> Int
+totalWords game = length . M.keys $ gameWords game
 
 
-cell2char :: Cell -> Char
-cell2char (Cell _ c) = c
-cell2char Indent     = '?'
+score :: Game -> Int
+score game = length . catMaybes . M.elems $ gameWords game
+
+
+completed :: Game -> Bool
+completed game = score game == totalWords game
+
+
+-- lookup functions
+findWords :: Grid Cell -> [String] -> [[Cell]]
+findWords grid words =
+    let foundWords = map (findWord grid) words
+    in catMaybes foundWords
+
+
+findWord :: Grid Cell -> String -> Maybe [Cell]
+findWord grid word =
+    let lines = getLines grid
+        foundWords = map (findWordInLine word) lines
+    in listToMaybe (catMaybes foundWords)
 
 
 findWordInLine :: String -> [Cell] -> Maybe [Cell]
@@ -66,16 +115,14 @@ findWordInLine word line =
         cs@(Just _) -> cs
 
 
-skew :: Grid Cell -> Grid Cell
-skew [] = []
-skew (l:ls) = l : skew (map indent ls)
-   where indent line = Indent : line
+findWordInCellLinePrefix :: [Cell] -> String -> [Cell] -> Maybe [Cell]
+findWordInCellLinePrefix acc (chr : chrs) (cell : cells) | chr == cell2char cell =
+    findWordInCellLinePrefix (cell : acc) chrs cells
+findWordInCellLinePrefix acc [] _ = Just $ reverse acc
+findWordInCellLinePrefix _ _ _ = Nothing
+        
 
-
-diagonalize :: Grid Cell -> Grid Cell
-diagonalize = transpose . skew
-
-
+-- helper functions
 getLines :: Grid Cell -> [[Cell]]
 getLines grid =
     let horizontal = grid
@@ -86,22 +133,38 @@ getLines grid =
     in lines ++ (map reverse lines)
 
 
-findWord :: Grid Cell -> String -> Maybe [Cell]
-findWord grid word =
-    let lines = getLines grid
-        foundWords = map (findWordInLine word) lines
-    in listToMaybe (catMaybes foundWords)
+diagonalize :: Grid Cell -> Grid Cell
+diagonalize = transpose . skew
 
 
-findWords :: Grid Cell -> [String] -> [[Cell]]
-findWords grid words =
-    let foundWords = map (findWord grid) words
-    in catMaybes foundWords
+skew :: Grid Cell -> Grid Cell
+skew [] = []
+skew (l:ls) = l : skew (map indent ls)
+    where indent line = Indent : line
 
 
-findWordInCellLinePrefix :: [Cell] -> String -> [Cell] -> Maybe [Cell]
-findWordInCellLinePrefix acc (chr : chrs) (cell : cells) | chr == cell2char cell =
-    findWordInCellLinePrefix (cell : acc) chrs cells
-findWordInCellLinePrefix acc [] _ = Just $ reverse acc
-findWordInCellLinePrefix _ _ _ = Nothing
+-- format functions
+formatGame :: Game -> String
+formatGame game =
+    let grid = gameGrid game
+    in formatGrid grid
+       ++ "\n\n"
+       ++ (show $ score game)
+       ++ "/"
+       ++ (show $ totalWords game)
 
+
+formatGrid :: Grid Cell -> String
+formatGrid = unlines . mapOverGrid cell2char
+
+mapOverGrid :: (a -> b) -> Grid a -> Grid b
+mapOverGrid = map . map
+
+
+outputGrid :: Grid Cell -> IO ()
+outputGrid grid = putStrLn $ formatGrid grid
+
+
+cell2char :: Cell -> Char
+cell2char (Cell _ c) = c
+cell2char Indent     = '?'

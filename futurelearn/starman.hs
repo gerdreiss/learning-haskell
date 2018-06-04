@@ -7,6 +7,8 @@
 -- It would involve generating a random number i and read in the ith word from a dictionary.
 -- You might import System.Random and use a Haskell random number generator.
 
+import System.Random
+
 
 check :: String -> String -> Char -> (Bool, String)
 check word display c = (c `elem` word, [if x == c then c else y | (x, y) <- zip word display])

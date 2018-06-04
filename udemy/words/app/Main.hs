@@ -14,7 +14,8 @@ main = do
     hSetBuffering stdout NoBuffering
     playTurn game
 
-playTurn :: Game = do
+
+playTurn game = do
     putStrLn . formatGame $ game
     putStr "Please enter a word: "
     word <- getLine

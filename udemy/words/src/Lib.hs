@@ -36,7 +36,7 @@ type Grid a = [[a]]
 data Cell = Cell (Int, Int) Char | Indent deriving (Eq, Ord, Show)
 data Game = Game {
                 gameGrid :: Grid Cell,
-                gameWords :: M.Map String (Maybe [Cell]))
+                gameWords :: M.Map String (Maybe [Cell])
             }
             deriving (Show)
 
@@ -70,10 +70,10 @@ zipOverGrid :: Grid a -> Grid b -> Grid (a, b)
 zipOverGrid = zipWith zip
 
 
-randomRandonGrid gen =
+makeRandomGrid gen =
     let (gen1, gen2) = split gen
         row = randomRs ('A', 'Z') gen1
-    in  row :: makeRandomGrid gen2
+    in row : makeRandomGrid gen2
 
 
 fillInBlanks gen grid =
@@ -176,7 +176,7 @@ formatGameGrid game =
         cellSet = concat . catMaybes . M.elems $ dict
         formatCell cell =
             let char = cell2char cell
-            in if cell `elem` cellSet the char else toLower char
+            in if cell `elem` cellSet then char else toLower char
         charGrid = mapOverGrid formatCell grid
     in unlines charGrid
 

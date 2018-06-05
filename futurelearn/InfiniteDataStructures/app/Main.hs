@@ -1,7 +1,11 @@
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE ScopedTypeVariables        #-}
+{-# LANGUAGE TemplateHaskell            #-}
+
 module Main where
 
-import Fibonacci
-import PrimeNumbers
+import           Fibonacci
+import           PrimeNumbers
 
 main :: IO ()
 main =

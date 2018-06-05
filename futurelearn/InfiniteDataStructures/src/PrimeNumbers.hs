@@ -1,4 +1,6 @@
-module PrimeNumbers where
+module PrimeNumbers
+  ( primes
+  ) where
 
 properfactors :: Int -> [Int]
 properfactors x = filter (\y -> (x `mod` y == 0)) [2..(x - 1)]

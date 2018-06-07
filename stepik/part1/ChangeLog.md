@@ -1,3 +1,3 @@
-# Changelog for stepik1
+# Changelog for part1
 
 ## Unreleased changes

@@ -5,7 +5,8 @@ module Lib
 
 -- Chapter 1, Exercise 3
 sum'n'count :: Integer -> (Integer, Integer)
-sum'n'count x = (sumS $ str x, lengthS $ str x)
+sum'n'count x = (sumS s, lengthS s)
+  where s = str x
 
 sumS :: String -> Integer
 sumS s = sum (map (\c -> read [c] :: Integer) s)

@@ -1,0 +1,73 @@
+-- This file has been generated from package.yaml by hpack version 0.20.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: f1d65db0b307817bdbceda7bbc08c732b11f41fe2339f5f059b709dbe0d5354e
+
+name:           words
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/gerdreiss/learning-haskell/tree/master/udemy/words>
+homepage:       https://github.com/gerdreiss/learning-haskell/tree/master/udemy/words#readme
+bug-reports:    https://github.com/gerdreiss/learning-haskell/tree/master/udemy/words/issues
+author:         Gerd Reiss
+maintainer:     gerdreiss@jscriptive.com
+copyright:      BSD
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+cabal-version:  >= 1.10
+
+extra-source-files:
+    ChangeLog.md
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/gerdreiss/learning-haskell/tree/master/udemy/words
+
+library
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , hspec >=2.4.8
+    , random
+  exposed-modules:
+      Data
+      Functions
+      Lib
+  other-modules:
+      Paths_words
+  default-language: Haskell2010
+
+executable words
+  main-is: Main.hs
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , hspec >=2.4.8
+    , random
+    , words
+  other-modules:
+      Paths_words
+  default-language: Haskell2010
+
+test-suite words-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , hspec >=2.4.8
+    , random
+    , words
+  other-modules:
+      Paths_words
+  default-language: Haskell2010

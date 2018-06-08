@@ -21,6 +21,7 @@ responseFor xs
 
 
 yell :: String -> Bool
+yell [] = False
 yell xs = any isLetter xs && (null $ filter isLower xs)
 
 question :: String -> Bool
@@ -33,4 +34,5 @@ strip []     = []
 strip (x:xs) = if isSpace x then strip xs else x:(strip xs)
 
 sayNothing :: String -> Bool
+sayNothing [] = True
 sayNothing xs = null $ filter isAlphaNum xs

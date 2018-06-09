@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ec31d207de4b3cc493dc9eb3902334803a4cd4efd8581b1e52d44ae1d5acfaee
+-- hash: e16b08859e8e9bd355d8e1ef3b17f36e9aa3156dd43710b3397924a1d604579b
 
 name:           part1
 version:        0.1.0.0
@@ -26,6 +26,7 @@ source-repository head
 
 library
   exposed-modules:
+      Equals
       Lib
   other-modules:
       Paths_part1

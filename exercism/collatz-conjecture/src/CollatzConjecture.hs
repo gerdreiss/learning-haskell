@@ -12,7 +12,7 @@ steps x cnt = if x `mod` 2 == 0
         else steps (x * 3 + 1) (fmap (+1) cnt)
 
 
--- beatiful solution, not mine:
+-- beautiful solution, not mine:
 collatz' :: Integer -> Maybe Integer
 collatz' n
     | n <= 0         = Nothing

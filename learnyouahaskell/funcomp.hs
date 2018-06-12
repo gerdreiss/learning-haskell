@@ -1,5 +1,6 @@
 module FunctionComposition
   ( digitSum
+  , firstTo
   ) where
 
 import           Data.Char

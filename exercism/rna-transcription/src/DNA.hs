@@ -3,15 +3,16 @@ module DNA (toRNA) where
 import           Data.Maybe
 
 toRNA :: String -> Maybe String
-toRNA = traverse r2d
-    -- allOrNothing . map r2d
+toRNA = traverse (`lookup` [('C', 'G'), ('G', 'C'), ('T', 'A'), ('A', 'U')])
+--      traverse r2d
+--      allOrNothing . map r2d
 
-{-
+
 allOrNothing :: [Maybe Char] -> Maybe String
 allOrNothing xs
-  | Nothing `elem` xs = Nothing
-  | otherwise         = Just $ catMaybes xs
--}
+    | Nothing `elem` xs = Nothing
+    | otherwise         = Just $ catMaybes xs
+
 
 r2d :: Char -> Maybe Char
 r2d d =
@@ -29,6 +30,4 @@ r2d d =
     | d == 'T'  = Just 'A'
     | d == 'A'  = Just 'U'
     | otherwise = Nothing
--}
-
-
+    -}

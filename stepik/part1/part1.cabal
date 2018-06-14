@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 783ec00a85e66ffb0fd54f0a2e5bbcd669fca0843b8ec81c74c33282ed328adf
+-- hash: d44b3cca84a2b02e8df136b45ac885e7837728e9c6ca8c7c21e50c1b14bb199a
 
 name:           part1
 version:        0.1.0.0
@@ -29,6 +29,7 @@ library
       Equals
       GorkAndMork
       Lib
+      MinMax
       Printable
       SafeEnum
   other-modules:

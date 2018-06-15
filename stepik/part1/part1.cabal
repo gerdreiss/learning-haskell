@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d44b3cca84a2b02e8df136b45ac885e7837728e9c6ca8c7c21e50c1b14bb199a
+-- hash: 8e4ce8a1ccc6a67c842cd8298f8aab30328bef5dc214544349e689ce674ee333
 
 name:           part1
 version:        0.1.0.0
@@ -29,8 +29,11 @@ library
       Equals
       GorkAndMork
       Lib
+      Max3
       MinMax
+      Perms
       Printable
+      Qsort
       SafeEnum
   other-modules:
       Paths_part1

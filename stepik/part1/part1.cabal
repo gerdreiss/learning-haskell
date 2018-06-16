@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 82239a2808a0b3a0e69c10f1e1818c1a5a6c749ef0e113d6202acb218af58e64
+-- hash: 3207ffa57b45ae2ddab6677efa9a707fa6fcf9f5f5445b0517243962396e4291
 
 name:           part1
 version:        0.1.0.0
@@ -26,6 +26,7 @@ source-repository head
 
 library
   exposed-modules:
+      Change
       EnumOdd
       Equals
       GorkAndMork

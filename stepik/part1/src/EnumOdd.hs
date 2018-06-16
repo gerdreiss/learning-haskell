@@ -1,10 +1,8 @@
-{-# LANGUAGE TemplateHaskell #-}
-
 module EnumOdd
   ( Odd(..)
   ) where
 
-data Odd =
+newtype Odd =
   Odd Integer
   deriving (Eq, Show)
 

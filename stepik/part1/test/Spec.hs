@@ -1,5 +1,3 @@
-{-# LANGUAGE TemplateHaskell #-}
-
 import           Lib
 
 main :: IO ()

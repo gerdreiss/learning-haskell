@@ -17,6 +17,6 @@ instance (Equals a, Equals b) => Equals (a, b) where
 class (Equals a) =>
       Order a
   where
-  (<), (<=), (>=), (>) :: a -> a -> Bool
+  lt_, le_, ge_, gt_ :: a -> a -> Bool
   max, min :: a -> a -> a
   compare :: a -> a -> Ordering

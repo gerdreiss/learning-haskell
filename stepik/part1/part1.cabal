@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d44b3cca84a2b02e8df136b45ac885e7837728e9c6ca8c7c21e50c1b14bb199a
+-- hash: 3207ffa57b45ae2ddab6677efa9a707fa6fcf9f5f5445b0517243962396e4291
 
 name:           part1
 version:        0.1.0.0
@@ -26,11 +26,16 @@ source-repository head
 
 library
   exposed-modules:
+      Change
+      EnumOdd
       Equals
       GorkAndMork
       Lib
+      Max3
       MinMax
+      Perms
       Printable
+      Qsort
       SafeEnum
   other-modules:
       Paths_part1

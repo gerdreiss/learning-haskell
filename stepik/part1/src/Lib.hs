@@ -1,12 +1,13 @@
 module Lib
-    ( sum'n'count
-    , getSecondFrom
-    ) where
+  ( sum'n'count
+  , getSecondFrom
+  ) where
 
 -- Chapter 1, Exercise 3
 sum'n'count :: Integer -> (Integer, Integer)
 sum'n'count x = (sumS s, lengthS s)
-  where s = str x
+  where
+    s = str x
 
 sumS :: String -> Integer
 sumS s = sum (map (\c -> read [c] :: Integer) s)

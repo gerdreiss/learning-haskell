@@ -4,5 +4,5 @@ import           Lib
 
 main :: IO ()
 main = do
-    putStrLn $ show $ sum'n'count 01123
-    putStrLn $ show $ getSecondFrom 1 "2" False
+  print (sum'n'count 1123)
+  print (getSecondFrom 1 "2" False)

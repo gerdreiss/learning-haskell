@@ -32,7 +32,7 @@ cmp0 _ Info          = GT
 
 -- not mine, but more elegant than cmp0
 cmp1 :: LogLevel -> LogLevel -> Ordering
-cmp1 x y = compare (ord x)  (ord y) where
+cmp1 x y = compare (ord x) (ord y) where
    ord Error   = 3
    ord Warning = 2
    ord Info    = 1

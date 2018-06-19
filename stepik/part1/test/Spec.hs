@@ -18,7 +18,7 @@ specs = describe "parsePerson" $ for_ parseCases parseTest
 
 parseCases :: [(String, String, Either Error Person)]
 parseCases =
-  [ ("wrong Parse | empty string", t0, Left IncompleteDataError)
+  [ ("wrong Parse | empty string", t0, Left ParsingError)
   , ( "correct"
     , t1
     , Right Person {firstName = "John", lastName = "Connor", age = 30})
@@ -30,7 +30,7 @@ parseCases =
     , Right Person {firstName = "John Smith", lastName = "Connor", age = 30})
   , ( "correct | double name, minor fields ignored"
     , t5
-    , Right Person {firstName = "John Smith", lastName = "Connor", age = 30})
+    , Left ParsingError)
   ]
 
 -- wrong Parse | empty string

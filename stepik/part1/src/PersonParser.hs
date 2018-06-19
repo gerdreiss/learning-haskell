@@ -8,9 +8,9 @@ import           Data.Char  (isDigit)
 import           Data.List  (groupBy, transpose)
 import           Data.Maybe (fromJust)
 
-data Error = ParsingError | IncompleteDataError | IncorrectDataError String
+data Error = ParsingError | IncompleteDataError | IncorrectDataError String deriving (Eq, Show)
 
-data Person = Person { firstName :: String, lastName :: String, age :: Int }
+data Person = Person { firstName :: String, lastName :: String, age :: Int } deriving (Eq, Show)
 
 parsePerson :: String -> Either Error Person
 parsePerson str
@@ -18,8 +18,8 @@ parsePerson str
   | head str == ' ' = Left ParsingError
   | last str == ' ' = Left ParsingError
   | not $ substring "firstName = " str = Left ParsingError
-  | not $ substring "\nlastName = " str = Left ParsingError
-  | not $ substring "\nage = " str = Left ParsingError
+  | not $ substring "lastName = " str = Left ParsingError
+  | not $ substring "age = " str = Left ParsingError
   | otherwise =
     case parseP str of
       (Just fn, Just ln, Just a) ->

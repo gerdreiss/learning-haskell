@@ -9,8 +9,7 @@ main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
 
 specs :: Spec
-specs = do
-  describe "parsePerson" $ for_ parseCases parseTest
+specs = describe "parsePerson" $ for_ parseCases parseTest
   where
     parseTest (description, str, expected) = it description assertion
       where

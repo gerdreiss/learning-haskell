@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 731cde7223981c45409456e48a00a5f5b2e26ffd4323c18ca94e0dd2fc708379
+-- hash: f9947b0e8927d2be22a2e25ae1f5a9f52d7c9a3f43a49eff796007c17116c2e2
 
 name:           part1
 version:        0.1.0.0
@@ -72,5 +72,6 @@ test-suite stepik-part1-test
   build-depends:
       base >=4.7 && <5
     , containers
+    , hspec
     , part1
   default-language: Haskell2010

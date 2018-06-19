@@ -7,4 +7,10 @@ square n
 
 total :: Integer
 total = maybe 0 id . fmap sum . sequence . map square $ [1..64]
--- or just (2 ^ 64) - 1
+
+-- or
+-- import Data.Maybe (mapMaybe)
+-- total = sum $ mapMaybe square [1..64]
+
+-- or totally simple
+-- total = (2 ^ 64) - 1

@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3207ffa57b45ae2ddab6677efa9a707fa6fcf9f5f5445b0517243962396e4291
+-- hash: d91c2efd696db23c8a4672f2425c0aaa6d9db7b658f71f11d5c5184fd404f573
 
 name:           part1
 version:        0.1.0.0
@@ -31,6 +31,7 @@ library
       Equals
       GorkAndMork
       Lib
+      LogLevels
       Max3
       MinMax
       Perms

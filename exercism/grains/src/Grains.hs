@@ -8,6 +8,10 @@ square n
 total :: Integer
 total = maybe 0 id . fmap sum . sequence . map square $ [1..64]
 
+-- better:
+-- import Data.Maybe (fromJust)
+-- total = fromJust $ sum <$> traverse square [1..64]
+
 -- or
 -- import Data.Maybe (mapMaybe)
 -- total = sum $ mapMaybe square [1..64]

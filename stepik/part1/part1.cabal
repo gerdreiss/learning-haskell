@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d91c2efd696db23c8a4672f2425c0aaa6d9db7b658f71f11d5c5184fd404f573
+-- hash: 731cde7223981c45409456e48a00a5f5b2e26ffd4323c18ca94e0dd2fc708379
 
 name:           part1
 version:        0.1.0.0
@@ -35,6 +35,7 @@ library
       Max3
       MinMax
       Perms
+      PersonParser
       Printable
       Qsort
       SafeEnum

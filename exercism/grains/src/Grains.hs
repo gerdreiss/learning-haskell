@@ -7,3 +7,4 @@ square n
 
 total :: Integer
 total = maybe 0 id . fmap sum . sequence . map square $ [1..64]
+-- or just (2 ^ 64) - 1

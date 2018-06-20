@@ -7,6 +7,7 @@ data Expr = Val Int | Expr :+: Expr | Expr :*: Expr
     deriving (Show, Eq)
 
 
+expand :: Expr -> Expr
 expand exp@((e1 :+: e2) :*: e) = helper exp (expand e1 :*: expand e :+: expand e2 :*: expand e)
 expand exp@(e :*: (e1 :+: e2)) = helper exp (expand e :*: expand e1 :+: expand e :*: expand e2)
 expand exp@(e1 :+: e2)         = helper exp (expand e1 :+: expand e2)

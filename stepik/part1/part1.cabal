@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f9947b0e8927d2be22a2e25ae1f5a9f52d7c9a3f43a49eff796007c17116c2e2
+-- hash: 3427bf54ece94df02cc20da5d5899aed9aa720b4cc46dc0fe48e8c1a7237feb9
 
 name:           part1
 version:        0.1.0.0
@@ -29,16 +29,19 @@ library
       Change
       EnumOdd
       Equals
+      Expressions
       GorkAndMork
       Lib
       LogLevels
       Max3
       MinMax
+      Nuts
       Perms
       PersonParser
       Printable
       Qsort
       SafeEnum
+      Trees
   other-modules:
       Paths_part1
   hs-source-dirs:

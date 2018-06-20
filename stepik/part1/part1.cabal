@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3427bf54ece94df02cc20da5d5899aed9aa720b4cc46dc0fe48e8c1a7237feb9
+-- hash: b53b5bd8df9ce63b87e88c5da7a43d75aac47045dd0d462c240aaffb4fbf9b8d
 
 name:           part1
 version:        0.1.0.0
@@ -33,6 +33,7 @@ library
       GorkAndMork
       Lib
       LogLevels
+      MapLike
       Max3
       MinMax
       Nuts

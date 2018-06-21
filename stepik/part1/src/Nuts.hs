@@ -30,15 +30,13 @@ fac n = toNat $ fac' $ fromNat n
 -- add (Suc a) (Suc b) = add (Suc (Suc a)) b
 
 -- mul :: Nat -> Nat -> Nat
--- mul x y = helper x y
---     where
---     helper (Suc Zero)  acc = acc
---     helper (Suc a)     acc = helper a (add acc y)
---     helper _           _   = Zero
+-- mul (Suc Zero)  acc = acc
+-- mul (Suc a)     acc = mul a (add acc y)
+-- mul _           _   = Zero
 
 -- fac :: Nat -> Nat
 -- fac x = helper x x
---     where
+--   where
 --     helper (Zero)      _   = Suc Zero
 --     helper (Suc Zero)  acc = acc
 --     helper (Suc a) acc     = mul x (fac a)

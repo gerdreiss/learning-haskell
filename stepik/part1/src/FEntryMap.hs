@@ -10,4 +10,5 @@ instance Functor (Entry k1 k2) where
 
 instance Functor (Map k1 k2) where
     fmap f (Map []) = Map []
-    fmap f (Map es) = Map (map (fmap f) es)
+    fmap f (Map es) = Map $ (f <$>) <$> es
+                   -- Map (map (fmap f) es)

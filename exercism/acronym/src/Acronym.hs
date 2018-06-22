@@ -15,4 +15,4 @@ insertBlankIntoCamelCase [] = []
 insertBlankIntoCamelCase [a] = [a]
 insertBlankIntoCamelCase (c1:c2:cs)
   | isLower c1 && isUpper c2 = c1:' ':c2: insertBlankIntoCamelCase cs
-  | otherwise = c1:c2: insertBlankIntoCamelCase cs
+  | otherwise = c1: insertBlankIntoCamelCase (c2:cs)

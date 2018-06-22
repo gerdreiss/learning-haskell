@@ -1,10 +1,10 @@
 {-# LANGUAGE RecordWildCards #-}
 
-import Data.Foldable     (for_)
-import Test.Hspec        (Spec, describe, it, shouldBe)
-import Test.Hspec.Runner (configFastFail, defaultConfig, hspecWith)
+import           Data.Foldable     (for_)
+import           Test.Hspec        (Spec, describe, it, shouldBe)
+import           Test.Hspec.Runner (configFastFail, defaultConfig, hspecWith)
 
-import Acronym (abbreviate)
+import           Acronym           (abbreviate)
 
 main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} specs
@@ -31,10 +31,14 @@ cases = [ Case { description = "basic"
         -- Although this case was removed in specification 1.1.0,
         -- the Haskell track has chosen to keep it,
         -- since it makes the problem more interesting.
-        , Case { description = "camelcase"
+        , Case { description = "camelcase 1"
                , input       = "HyperText Markup Language"
                , expected    = "HTML"
                }
+        , Case { description = "camelcase 2"
+              , input       = "xeMeL"
+              , expected    = "XML"
+              }
         , Case { description = "punctuation"
                , input       = "First In, First Out"
                , expected    = "FIFO"

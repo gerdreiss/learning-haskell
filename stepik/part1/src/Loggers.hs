@@ -2,6 +2,7 @@ module Loggers
   ( Log(..)
   , toLogger
   , execLoggers
+  , execLoggersList
   ) where
 
 data Log a = Log [String] a
@@ -27,8 +28,8 @@ bindLog (Log xmsgs x) f = Log (xmsgs ++ ymsgs) y
 
 
 execLoggersList :: a -> [a -> Log a] -> Log a
-execLoggersList x []     = returnLog x
-execLoggersList x (f:fs) = f x `bindLog` (flip execLoggersList $ fs)
+-- execLoggersList x []     = returnLog x
+-- execLoggersList x (f:fs) = f x `bindLog` (flip execLoggersList $ fs)
 
 -- Wow!
--- execLoggersList = foldl (bindLog) . return
+execLoggersList = foldl bindLog . returnLog

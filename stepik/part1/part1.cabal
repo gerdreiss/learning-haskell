@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 090b6421190ccc5bbc625c148903e1ab078d061f0319f15b0e6dc4f71c06ee7f
+-- hash: 523e412e3364395dc9b26f4d6260f0e59f986c9a90513d59fbe5126355c9f7e4
 
 name:           part1
 version:        0.1.0.0
@@ -32,6 +32,7 @@ library
       Expressions
       FEntryMap
       GorkAndMork
+      Lexer
       Lib
       Loggers
       LogLevels

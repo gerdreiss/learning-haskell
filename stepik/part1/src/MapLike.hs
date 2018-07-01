@@ -5,7 +5,6 @@ module MapLike
  ) where
 
 import qualified Data.List as L
-import           Prelude   hiding (lookup)
 
 class MapLike m where
   empty :: m k v
@@ -23,12 +22,12 @@ instance MapLike ListMap where
     empty                     = ListMap []
     lookup key (ListMap list) = L.lookup key list
     delete key (ListMap list) = ListMap $ filter (\ (x, _) -> x /= key) list
-    insert key value map      = ListMap $ (key, value) : (getListMap $ delete key map)
+    insert key value map      = ListMap $ (key, value) : getListMap (delete key map)
 
 newtype ArrowMap k v = ArrowMap { getArrowMap :: k -> Maybe v }
 
 instance MapLike ArrowMap where
-  empty                   = ArrowMap (\x -> Nothing)
+  empty                   = ArrowMap (const Nothing)
   lookup k (ArrowMap f)   = f k
   insert k v (ArrowMap f) = ArrowMap (\x -> if k == x then Just v else f x)
   delete k (ArrowMap f)   = ArrowMap (\x -> if k == x then Nothing else f x)

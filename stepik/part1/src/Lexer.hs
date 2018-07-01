@@ -19,4 +19,5 @@ asToken s
   | otherwise = Nothing
 
 tokenize :: String -> Maybe [Token]
-tokenize = sequence . map asToken . words
+tokenize = mapM asToken . words
+  -- sequence . map asToken . words

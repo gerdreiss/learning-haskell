@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 523e412e3364395dc9b26f4d6260f0e59f986c9a90513d59fbe5126355c9f7e4
+-- hash: 411123057501d3c4fe4ee1cf45da8d45a00ad7f8c4c5f7ec147646b14bd1d9bc
 
 name:           part1
 version:        0.1.0.0
@@ -43,6 +43,7 @@ library
       Perms
       PersonParser
       Printable
+      Pythagoras
       Qsort
       SafeEnum
       Trees

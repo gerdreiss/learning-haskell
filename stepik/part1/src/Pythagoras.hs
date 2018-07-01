@@ -2,7 +2,7 @@ module Pythagoras
   ( pythagoreanTriple
   ) where
 
-import Control.Monad
+import           Control.Monad
 
 pythagoreanTriple :: Int -> [(Int, Int, Int)]
 pythagoreanTriple x = do

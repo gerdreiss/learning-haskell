@@ -1,6 +1,7 @@
 module Main where
 
 import           Change
+import           Data.List
 
 main :: IO ()
-main = print $ change 7
+main = print $ nub . change $ 12

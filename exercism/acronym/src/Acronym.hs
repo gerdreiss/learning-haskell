@@ -7,10 +7,10 @@ abbreviate = map (toUpper . head) . words . map charOrBlank . insertBlankIntoCam
 
 charOrBlank :: Char -> Char
 charOrBlank c
-  | toUpper c >= 'A' && toUpper c <= 'Z' = c
+  | isAsciiUpper (toUpper c) = c
   | otherwise = ' '
 
-insertBlankIntoCamelCase :: [Char] -> [Char]
+insertBlankIntoCamelCase :: String -> String
 insertBlankIntoCamelCase [] = []
 insertBlankIntoCamelCase [a] = [a]
 insertBlankIntoCamelCase (c1:c2:cs)

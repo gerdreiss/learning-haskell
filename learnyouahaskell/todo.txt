@@ -1,0 +1,4 @@
+learn haskell
+learn more haskell
+write more programs
+have more fun

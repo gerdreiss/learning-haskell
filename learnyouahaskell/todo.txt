@@ -3,4 +3,3 @@ learn more haskell
 write some programs
 have some fun
 find a Haskell job
-have a well paid job!

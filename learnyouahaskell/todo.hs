@@ -61,7 +61,7 @@ remove [fileName, numberString] = do
 remove _                    = what []
 
 _override :: String -> String -> IO ()
-_override fileName todoItems = do
+_override fileName todoItems =
     bracketOnError (openTempFile "." "temp")
       (\ (tempName, tempHandle) ->
          do hClose tempHandle

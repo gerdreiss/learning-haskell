@@ -4,6 +4,7 @@ import           System.Directory
 import           System.Environment
 import           System.IO
 
+main :: IO ()
 main = do
     mainArgs <- getArgs
     case mainArgs of

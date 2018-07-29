@@ -39,8 +39,7 @@ edit [fileName, numberString, newText] = do
     let todoTasks = lines contents
         number = read numberString
         reducedItems = delete (todoTasks !! (number - 1)) todoTasks
-        completeItems = sortOn fst $ (number, newText) : zip [1..] reducedItems
-        newTodoItems = unlines $ map snd completeItems
+        newTodoItems = unlines . map snd . sortOn fst $ (number, newText) : zip [1..] reducedItems
     _override fileName newTodoItems
 edit _                    = what []
 

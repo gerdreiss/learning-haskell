@@ -37,9 +37,7 @@ add _                    = what []
 edit :: [String] -> IO ()
 edit [fileName, numberString, newText] = do
     contents <- readFile fileName
-    let todoTasks = lines contents
-        number = read numberString
-        reducedItems = delete (todoTasks !! (number - 1)) todoTasks
+    let (number, reducedItems) = _linesSkippingLine contents numberString
         newTodoItems = unlines . map snd . sortOn fst $ (number, newText) : zip [1..] reducedItems
     _override fileName newTodoItems
 edit _                    = what []
@@ -55,11 +53,16 @@ view _                    = what []
 remove :: [String] -> IO ()
 remove [fileName, numberString] = do
     contents <- readFile fileName
-    let todoTasks = lines contents
-        number = read numberString
-        newTodoItems = unlines $ delete (todoTasks !! (number - 1)) todoTasks
+    let (_, reducedItems) = _linesSkippingLine contents numberString
+        newTodoItems = unlines reducedItems
     _override fileName newTodoItems
 remove _                    = what []
+
+_linesSkippingLine :: String -> String -> (Int, [String])
+_linesSkippingLine contents numberString = (number, reduced)
+     where number = read numberString
+           todos = lines contents
+           reduced = delete (todos !! (number - 1)) todos
 
 _override :: String -> String -> IO ()
 _override fileName todoItems =

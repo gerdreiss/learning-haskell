@@ -40,7 +40,7 @@ edit [fileName, numberString, newText] = do
     let (number, reducedItems) = _linesSkippingLine contents numberString
         newTodoItems = unlines . map snd . sortOn fst $ (number, newText) : zip [1..] reducedItems
     _override fileName newTodoItems
-edit _                    = what []
+edit _ = what []
 
 view :: [String] -> IO ()
 view [fileName] = do
@@ -48,7 +48,7 @@ view [fileName] = do
     let todoTasks = lines contents
         numberedTasks = zipWith (\n line -> show n ++ " - " ++ line) [1..] todoTasks
     putStr $ unlines numberedTasks
-view _                    = what []
+view _ = what []
 
 remove :: [String] -> IO ()
 remove [fileName, numberString] = do
@@ -56,7 +56,7 @@ remove [fileName, numberString] = do
     let (_, reducedItems) = _linesSkippingLine contents numberString
         newTodoItems = unlines reducedItems
     _override fileName newTodoItems
-remove _                    = what []
+remove _ = what []
 
 _linesSkippingLine :: String -> String -> (Int, [String])
 _linesSkippingLine contents numberString = (number, reduced)

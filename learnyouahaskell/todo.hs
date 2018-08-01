@@ -54,7 +54,8 @@ edit :: [String] -> IO ()
 edit [fileName, numberString, newText] = do
     contents <- readFile fileName
     let (number, reducedItems) = _linesSkippingLine contents numberString
-        newTodoItems = unlines . map snd . sortOn fst $ (number, newText) : zip [1..] reducedItems
+        numberedTasks = (number, newText) : zip [1..] reducedItems
+        newTodoItems = unlines . map snd . sortOn fst $ numberedTasks
     _override fileName newTodoItems
 edit _ = what []
 
@@ -64,9 +65,8 @@ edit _ = what []
 view :: [String] -> IO ()
 view [fileName] = do
     contents <- readFile fileName
-    let todoTasks = lines contents
-        numberedTasks = zipWith (\n line -> show n ++ " - " ++ line) [1..] todoTasks
-    putStr $ unlines numberedTasks
+    let todoTasks = zipWith (\n line -> show n ++ " - " ++ line) [1..] . lines $ contents
+    putStr $ unlines todoTasks
 view _ = what []
 
 {-

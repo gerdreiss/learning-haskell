@@ -12,4 +12,7 @@ solveRPN = head . foldl foldF [] . words
           foldF (x:y:ys) "+" = (y + x):ys
           foldF (x:y:ys) "-" = (y - x):ys
           foldF (x:y:ys) "/" = (y / x):ys
+          foldF (x:y:ys) "^" = (y ** x):ys
+          foldF (x:xs) "ln"  = log x:xs
+          foldF xs "sum"     = [sum xs]
           foldF xs s         = read s:xs

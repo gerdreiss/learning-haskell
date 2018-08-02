@@ -3,9 +3,9 @@ module CollatzConjecture
   ) where
 
 collatz :: Integer -> Maybe Integer
-collatz n | n <= 0    = Nothing
-          | n == 1    = Just 0
-          | otherwise = fmap (+1) . collatz . next $ n
+collatz n
+  | n > 0     = Just . fromIntegral . length . takeWhile (> 1) $ iterate next n
+  | otherwise = Nothing
 
 next :: Integer -> Integer
 next n | even n    = n `div` 2
@@ -32,3 +32,10 @@ collatz'' n
     | n == 1         = Just 0
     | n `mod` 2 == 0 = fmap (+1) $ collatz'' (n `div` 2)
     | otherwise      = fmap (+1) $ collatz'' (n * 3 + 1)
+
+-- better, but still inelegant
+collatz''' :: Integer -> Maybe Integer
+collatz''' n | n <= 0    = Nothing
+        | n == 1    = Just 0
+        | otherwise = fmap (+1) . collatz''' . next $ n
+

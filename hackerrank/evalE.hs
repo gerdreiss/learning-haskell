@@ -21,6 +21,6 @@ main :: IO()
 main = do
     n <- readLn :: IO Int
 
-    forM_ [1..n] $ \n_itr -> do
+    forM_ [1..n] $ \_ -> do
         x <- readLn :: IO Double
         print . trunc . eX $ x

@@ -5,21 +5,14 @@
 module Main where
 
 import           Control.Monad
-import           Data.Array
-import           Data.Bits
 import           Data.List
-import           Data.List.Split
-import           Data.Set
-import           Debug.Trace
-import           System.Environment
-import           System.IO
-import           System.IO.Unsafe
+
 
 eval :: Double -> Double -> Double
-eval x i = (x ** i) / product [1 .. i]
+eval x i = (x ** i) / product [1..i]
 
 eX :: Double -> Double
-eX x = 1 + x + sum (Data.List.map (eval x) [2 .. 9])
+eX x = 1 + x + sum (map (eval x) [2..9])
 
 trunc :: Double -> Double
 trunc x = fromIntegral (floor (x * 10000)) / 10000

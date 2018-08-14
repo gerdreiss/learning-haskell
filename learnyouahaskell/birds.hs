@@ -2,7 +2,7 @@
 
 
 main :: IO ()
-main = print $ return (0, 0) >>= landRight 1 >>= landLeft 1 >>= landRight 2 >>= landLeft 1
+main = print $ return (0, 0) >>= landRight 1 >>= landLeft 1 >> Nothing >>= landRight 2
 
 
 type Birds = Int
@@ -18,3 +18,5 @@ landRight n (left, right)
   | abs (left - (right + n)) < 4 = Just (left, right + n)
   | otherwise = Nothing
 
+banana :: Pole -> Maybe Pole
+banana _ = Nothing

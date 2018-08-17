@@ -2,8 +2,15 @@
 
 
 main :: IO ()
-main = print $ return (0, 0) >>= landRight 1 >>= landLeft 1 >> Nothing >>= landRight 2
+main = print routine
+-- $ return (0, 0) >>= landRight 1 >>= landLeft 1 >> Nothing >>= landRight 2
 
+routine :: Maybe Pole
+routine = do
+  start <- return (0, 0)
+  first <- landLeft 2 start
+  second <- landRight 2 first
+  landLeft 1 second
 
 type Birds = Int
 type Pole = (Birds, Birds)

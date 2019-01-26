@@ -2,12 +2,13 @@ module PrettyJSON
   ( renderJValue
   ) where
 
+import Prelude hiding ((<>))
 import Numeric (showHex)
 import Data.Char (ord)
 import Data.Bits (shiftR, (.&.))
 
 import SimpleJSON (JValue(..))
-import Prettify (Doc, (<>), empty, char, double, fsep, hcat, punctuate, text)
+import Prettify
 
 
 

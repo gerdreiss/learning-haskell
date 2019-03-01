@@ -6,4 +6,4 @@ Learning Haskell with
 * Futurelearn Course [Functional Programming in Haskell](https://www.futurelearn.com/courses/functional-programming-haskell/)
 * Haskell Exercises [exercism.io](http://exercism.io/languages/haskell/about)
 * Book [Learn you a Haskell for great good](http://learnyouahaskell.com/)
-* Video [Building Terminal User Interfaces with Haskell](https://www.youtube.com/watch?v=qbDQdXfcaO8)
+* Book [Real World Haskell](http://book.realworldhaskell.org/read/)

@@ -1,5 +1,13 @@
 import qualified Data.ByteString.Lazy.Char8 as L
 
+highestCloseFrom :: FilePath -> IO ()
+highestCloseFrom path = do
+  contents <- L.readFile path
+  print (highestClose contents)
+
+highestClose :: L.ByteString -> Maybe Int
+highestClose = maximum . (Nothing :) . map closing . L.lines
+
 closing :: L.ByteString -> Maybe Int
 closing = readPrice . (!! 4) . L.split ','
 
@@ -9,13 +17,5 @@ readPrice str =
     Nothing -> Nothing
     Just (dollars, rest) ->
       case L.readInt (L.tail rest) of
-        Nothing -> Nothing
+        Nothing         -> Nothing
         Just (cents, _) -> Just (dollars * 100 + cents)
-
-highestClose :: L.ByteString -> Maybe Int
-highestClose = maximum . (Nothing :) . map closing . L.lines
-
-highestCloseFrom :: FilePath -> IO ()
-highestCloseFrom path = do
-  contents <- L.readFile path
-  print (highestClose contents)

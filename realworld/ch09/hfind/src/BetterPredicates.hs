@@ -1,4 +1,6 @@
-module BetterPredicates where
+module BetterPredicates
+  ( betterFind
+  ) where
 
 import Control.Exception (IOException (..), bracket, handle)
 import Control.Monad     (filterM)
@@ -23,20 +25,19 @@ betterFind p path = getRecursiveContents path >>= filterM check
 
 getFileSize :: FilePath -> IO (Maybe Integer)
 getFileSize path =
-    handleIO (\_ -> return Nothing) $
-    bracket (openFile path ReadMode) hClose $
-    \h -> Just <$> hFileSize h
+  handleIO (\_ -> return Nothing) $
+  bracket (openFile path ReadMode) hClose $ \h -> Just <$> hFileSize h
 
 simpleFileSize :: FilePath -> IO (Maybe Integer)
 simpleFileSize path = do
-    h <- openFile path ReadMode
-    size <- hFileSize h
-    hClose h
-    return (Just size)
+  h <- openFile path ReadMode
+  size <- hFileSize h
+  hClose h
+  return (Just size)
 
 saferFileSize :: FilePath -> IO (Maybe Integer)
 saferFileSize path =
-    handleIO (\_ -> return Nothing) $ do
+  handleIO (\_ -> return Nothing) $ do
     h <- openFile path ReadMode
     size <- hFileSize h
     hClose h

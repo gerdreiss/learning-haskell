@@ -1,7 +1,6 @@
 module Main where
 
-import SimpleFinder (simpleFind)
-import System.FilePath (takeExtension)
+import BetterPredicates
 
 main :: IO ()
-main = simpleFind (\p -> takeExtension p == ".hs") "." >>= mapM_ print
+main = putStrLn "How do you even call BetterPredicates.betterFind?"

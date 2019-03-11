@@ -15,6 +15,28 @@ type Predicate = FilePath      -- path to directory entry
               -> Maybe Integer -- file size (Nothing if not file)
               -> Bool
 
+type InfoP a = FilePath      -- path to directory entry
+            -> Permissions   -- permissions
+            -> Maybe Integer -- file size (Nothing if not a file)              
+            -> a
+
+pathP :: InfoP FilePath            
+pathP path _ _ = path
+
+sizeP :: InfoP Integer
+sizeP _ _ (Just size) = size
+sizeP _ _ Nothing     = -1
+
+equalP :: (Eq a) => InfoP a -> a -> InfoP Bool
+equalP f k w x y = f w x y == k
+
+liftP :: (a -> b -> c) -> InfoP a -> b -> InfoP c
+liftP q f k w x y = f w x y `q` k
+
+greaterP, lesserP :: (Ord a) => InfoP a -> a -> InfoP Bool
+greaterP = liftP (>)
+lesserP = liftP (<)
+
 betterFind :: Predicate -> FilePath -> IO [FilePath]
 betterFind p path = getRecursiveContents path >>= filterM check
   where

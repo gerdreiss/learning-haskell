@@ -37,6 +37,23 @@ greaterP, lesserP :: (Ord a) => InfoP a -> a -> InfoP Bool
 greaterP = liftP (>)
 lesserP = liftP (<)
 
+simpleAndP :: InfoP Bool -> InfoP Bool -> InfoP Bool
+simpleAndP f g w x y = f w x y && g w x y
+
+liftP2 :: (a -> b -> c) -> InfoP a -> InfoP b -> InfoP c
+liftP2 q f g w x y = f w x y `q` g w x y
+
+andP = liftP2 (&&)
+orP = liftP2 (||)
+
+constP :: a -> InfoP a
+constP k _ _ _ = k
+
+liftP' q f k w x y = f w x y `q` constP k w x y
+
+liftPath :: (FilePath -> a) -> InfoP a
+liftPath f w _ _ = f w
+
 betterFind :: Predicate -> FilePath -> IO [FilePath]
 betterFind p path = getRecursiveContents path >>= filterM check
   where

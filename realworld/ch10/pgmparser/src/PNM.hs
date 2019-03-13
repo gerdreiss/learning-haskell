@@ -3,7 +3,7 @@ module PNM where
 import qualified Data.ByteString.Lazy       as L
 import qualified Data.ByteString.Lazy.Char8 as L8
 
-import           Data.Char                  (isSpace)
+import Data.Char (isSpace)
 
 data Greymap = Greymap
   { greyWith   :: Int
@@ -48,7 +48,7 @@ parseP5 s =
     \s -> skipSpace ((), s)           >>?
     (getNat . snd)                    >>?
     skipSpace                         >>?
-    \(width, s) ->   getNat s         >>?
+    \(width, s) -> getNat s           >>?
     skipSpace                         >>?
     \(height, s) ->  getNat s         >>?
     \(maxGrey, s) -> getBytes 1 s     >>?

@@ -1,10 +1,10 @@
 name:                getting-started
 version:             0.1.0.0
-github:              githubuser/getting-started
+github:              gerdreiss/learning-haskell
 license:             BSD3
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2019 Author name here
+author:              Gerd Reiss
+maintainer:          gerdreiss@jscriptive.com
+copyright:           jscriptive.com
 
 extra-source-files:
 - README.md
@@ -17,11 +17,11 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on Github at <https://github.com/githubuser/getting-started#readme>
+description:         Please see the README on Github at <https://github.com/gerdreiss/learning-haskell#readme>
 
 dependencies:
 - base >= 4.11 && < 10
-- rio >= 0.1.9.0
+- rio >= 0.1.8.0
 
 ghc-options:
 - -Wall

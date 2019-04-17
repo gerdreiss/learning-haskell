@@ -1,10 +1,10 @@
-name:                getting-started
+name:                numberz
 version:             0.1.0.0
-github:              gerdreiss/learning-haskell
+github:              "githubuser/numberz"
 license:             BSD3
-author:              Gerd Reiss
-maintainer:          gerdreiss@jscriptive.com
-copyright:           jscriptive.com
+author:              "Author name here"
+maintainer:          "example@example.com"
+copyright:           "2019 Author name here"
 
 extra-source-files:
 - README.md
@@ -17,46 +17,32 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on Github at <https://github.com/gerdreiss/learning-haskell#readme>
+description:         Please see the README on GitHub at <https://github.com/githubuser/numberz#readme>
 
 dependencies:
-- base >= 4.11 && < 10
-- rio >= 0.1.8.0
-
-ghc-options:
-- -Wall
-- -Wcompat
-- -Widentities
-- -Wincomplete-record-updates
-- -Wincomplete-uni-patterns
-- -Wpartial-fields
-- -Wredundant-constraints
+- base >= 4.7 && < 5
 
 library:
   source-dirs: src
 
 executables:
-  getting-started-exe:
+  numberz-exe:
     main:                Main.hs
     source-dirs:         app
-    dependencies:
-    - getting-started
-    - optparse-simple
-
     ghc-options:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+    dependencies:
+    - numberz
 
 tests:
-  getting-started-test:
+  numberz-test:
     main:                Spec.hs
     source-dirs:         test
-    dependencies:
-    - getting-started
-    - hspec
-
     ghc-options:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+    dependencies:
+    - numberz

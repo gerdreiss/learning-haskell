@@ -1,8 +1,10 @@
--- This file has been generated from package.yaml by hpack version 0.20.0.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f1d65db0b307817bdbceda7bbc08c732b11f41fe2339f5f059b709dbe0d5354e
+-- hash: e6ab59a96881d500ac0cf97c682d088a36f5fd3d8b2e623995b242224bd14be5
 
 name:           words
 version:        0.1.0.0
@@ -15,11 +17,9 @@ copyright:      BSD
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
-cabal-version:  >= 1.10
-
 extra-source-files:
-    ChangeLog.md
     README.md
+    ChangeLog.md
 
 source-repository head
   type: git
@@ -35,7 +35,6 @@ library
     , random
   exposed-modules:
       Data
-      Functions
       Lib
   other-modules:
       Paths_words

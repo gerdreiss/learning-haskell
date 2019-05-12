@@ -7,3 +7,4 @@ Learning Haskell with
 * Haskell Exercises [exercism.io](http://exercism.io/languages/haskell/about)
 * Book [Learn you a Haskell for great good](http://learnyouahaskell.com/)
 * Book [Real World Haskell](http://book.realworldhaskell.org/read/)
+* Book [Get Programming with Haskell](https://livebook.manning.com/#!/book/get-programming-with-haskell)

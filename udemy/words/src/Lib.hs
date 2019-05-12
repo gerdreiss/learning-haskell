@@ -52,7 +52,7 @@ makeGame grid words =
 
 
 gridWithCoords :: Grid Char -> Grid Cell
-gridWithCoords grid = zipOverGridWith Cell coordsGrid grid
+gridWithCoords = zipOverGridWith Cell coordsGrid
 
 
 zipOverGridWith :: (a -> b -> c) -> Grid a -> Grid b -> Grid c
@@ -147,7 +147,7 @@ getLines grid =
         diagonal1 = diagonalize grid
         diagonal2 = diagonalize $ map reverse grid
         lines = horizontal ++ vertical ++ diagonal1 ++ diagonal2
-    in lines ++ (map reverse lines)
+    in lines ++ map reverse lines
 
 
 diagonalize :: Grid Cell -> Grid Cell
@@ -164,9 +164,9 @@ skew (l:ls) = l : skew (map indent ls)
 formatGame :: Game -> String
 formatGame game = formatGameGrid game
                 ++ "\n\n"
-                ++ (show $ score game)
+                ++ show (score game)
                 ++ "/"
-                ++ (show $ totalWords game)
+                ++ show (totalWords game)
 
 
 formatGameGrid :: Game -> String

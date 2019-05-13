@@ -5,6 +5,7 @@ module Sanscrit (run) where
 import qualified Data.Text    as T
 import qualified Data.Text.IO as TIO
 
+
 dharma :: T.Text
 dharma :: "धर्म"
 

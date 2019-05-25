@@ -12,6 +12,9 @@ type Author = T.Text
 type Title  = T.Text
 type Html   = T.Text
 
+type MarcRecordRaw = B.ByteString
+type MarcLeaderRaw = B.ByteString
+
 data Book = Book
   { author :: Author
   , title  :: Title
@@ -60,3 +63,26 @@ booksToHtml books = mconcat [ "<html>\n"
                             ]
   where
     booksHtml = mconcat . map bookToHtml $ books
+
+allRecords :: B.ByteString -> [MarcRecordRaw]
+allRecords marcStream = if marcStream == B.empty
+                        then []
+                        else next : allRecords rest
+  where (next, rest) = nextAndRest marcStream
+
+
+nextAndRest :: B.ByteString -> (MarcRecordRaw, B.ByteString)
+nextAndRest marcStream =  B.splitAt recordLength marcStream
+  where recordLength = getRecordLength marcStream
+
+getRecordLength :: MarcLeaderRaw -> Int
+getRecordLength leader = rawToInt $ B.take 5 leader
+
+leaderLength :: Int
+leaderLength = 24
+
+rawToInt :: B.ByteString -> Int
+rawToInt = read . T.unpack . E.decodeUtf8
+
+getLeader :: MarcRecordRaw -> MarcLeaderRaw
+getLeader = B.take leaderLength

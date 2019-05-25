@@ -2,8 +2,10 @@ module Main where
 
 import Marc2Html
 
-import qualified Data.Text.IO       as TIO
+import qualified Data.ByteString    as B
 
 main :: IO ()
-main = TIO.writeFile "books.html" (booksToHtml books)
-
+main = do
+  marcData <- B.readFile "ohsu_ncnm_wscc_bibs.mrc"
+  let marcRecords = allRecords marcData
+  print (length marcRecords)

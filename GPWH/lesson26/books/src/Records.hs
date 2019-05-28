@@ -5,11 +5,8 @@ import qualified Data.Text          as T
 import qualified Data.Text.Encoding as E
 
 type MarcRecordRaw = B.ByteString
-
 type MarcLeaderRaw = B.ByteString
-
 type MarcDirectoryRaw = B.ByteString
-
 type MarcDirectoryEntryRaw = B.ByteString
 
 allRecords :: B.ByteString -> [MarcRecordRaw]

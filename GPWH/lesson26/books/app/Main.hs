@@ -1,6 +1,6 @@
 module Main where
 
-import Marc2Html
+import Marc
 
 import qualified Data.ByteString    as B
 

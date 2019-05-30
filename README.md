@@ -8,3 +8,4 @@ Learning Haskell with
 * Book [Learn you a Haskell for great good](http://learnyouahaskell.com/)
 * Book [Real World Haskell](http://book.realworldhaskell.org/read/)
 * Book [Get Programming with Haskell](https://livebook.manning.com/#!/book/get-programming-with-haskell)
+* Udemy Course [Haskell: Data Analysis Made Easy](https://www.udemy.com/haskell-data-analysis-made-easy)

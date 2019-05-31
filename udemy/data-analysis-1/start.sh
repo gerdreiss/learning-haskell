@@ -1,7 +1,5 @@
 #!/bin/bash
 
-docker build -t grei/ihaskell .
-
 docker run -d \
     --rm -p 8888:8888 \
     --volume `pwd`/work:/home/jovyan/work \

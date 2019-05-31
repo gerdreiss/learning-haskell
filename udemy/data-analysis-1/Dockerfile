@@ -8,6 +8,6 @@ RUN apt-get install -y libghc-hdbc-sqlite3-dev
 
 USER jovyan
 
-RUN stack install csv HDBC sqlite-simple HDBC-sqlite3
+RUN stack install csv HDBC sqlite-simple HDBC-sqlite3 regex-posix
 
 VOLUME /home/jovyan/work

@@ -59,3 +59,6 @@ mode list = Just $ maximumBy (comparing snd) pairs
     sorted = sort list
     pairs = runLengthEncoding sorted
 
+
+countAtHour :: Int -> Int
+countAtHour h = length $ filter (=~ (printf "T%02d" :: String)) timestamps

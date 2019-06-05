@@ -17,6 +17,9 @@ leftArm  = RobotPart
    , count = 3
    }
 
+leftArmIO :: IO RobotPart
+leftArmIO = return leftArm
+
 rightArm :: RobotPart
 rightArm  = RobotPart
    { name = "right arm"
@@ -25,6 +28,9 @@ rightArm  = RobotPart
    , count = 5
    }
 
+rightArmIO :: IO RobotPart
+rightArmIO = return rightArm
+
 robotHead :: RobotPart
 robotHead  = RobotPart
    { name = "robot head"
@@ -32,6 +38,9 @@ robotHead  = RobotPart
    , cost = 5092.25
    , count = 2
    }
+
+robotHeadIO :: IO RobotPart
+robotHeadIO = return robotHead
 
 type Html = String
 
@@ -56,3 +65,24 @@ partsDB = Map.fromList keyVals
     keys = [1, 2, 3]
     vals = [leftArm, rightArm, robotHead]
     keyVals = zip keys vals
+
+insertSnippet :: Maybe Html -> IO ()
+insertSnippet _ = return ()
+
+partVal :: Maybe RobotPart
+partVal = Map.lookup 1 partsDB
+
+allParts :: [RobotPart]
+allParts = snd <$> Map.toList partsDB
+
+partHtml :: Maybe Html
+partHtml = renderHtml <$> partVal
+
+allPartsHtml :: [Html]
+allPartsHtml = renderHtml <$> allParts
+
+htmlPartsDB :: Map.Map Int Html
+htmlPartsDB = renderHtml <$> partsDB
+
+htmlSnippet :: IO Html
+htmlSnippet = renderHtml <$> leftArmIO

@@ -2,6 +2,8 @@ module Robots where
 
 import qualified Data.Map as Map
 
+type Html = String
+
 data RobotPart = RobotPart
    { name        :: String
    , description :: String
@@ -42,7 +44,13 @@ robotHead  = RobotPart
 robotHeadIO :: IO RobotPart
 robotHeadIO = return robotHead
 
-type Html = String
+
+partsDB :: Map.Map Int RobotPart
+partsDB = Map.fromList keyVals
+  where
+    keys = [1, 2, 3]
+    vals = [leftArm, rightArm, robotHead]
+    keyVals = zip keys vals
 
 renderHtml :: RobotPart -> Html
 renderHtml part =
@@ -57,14 +65,6 @@ renderHtml part =
     partDesc = description part
     partCost = show (cost part)
     partCount = show (count part)
-
-
-partsDB :: Map.Map Int RobotPart
-partsDB = Map.fromList keyVals
-  where
-    keys = [1, 2, 3]
-    vals = [leftArm, rightArm, robotHead]
-    keyVals = zip keys vals
 
 insertSnippet :: Maybe Html -> IO ()
 insertSnippet _ = return ()
@@ -86,3 +86,6 @@ htmlPartsDB = renderHtml <$> partsDB
 
 htmlSnippet :: IO Html
 htmlSnippet = renderHtml <$> leftArmIO
+
+readInt :: IO Int
+readInt = read <$> getLine

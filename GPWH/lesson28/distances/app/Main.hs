@@ -14,3 +14,9 @@ main = do
   let destCity = Map.lookup destInput locationDB
   let distance = haversine <$> startingCity <*> destCity
   printDistance distance
+--  putStrLn "Enter a username, gamerId and score"
+--  user <- User <$> getLine <*> readInt <*> readInt
+--  print user
+--  putStrLn "Enter three numbers"
+--  minInt <- minOfInts
+--  putStrLn (show minInt ++ " is the smallest")

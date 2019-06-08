@@ -59,6 +59,14 @@ mode list = Just $ maximumBy (comparing snd) pairs
     sorted = sort list
     pairs = runLengthEncoding sorted
 
+movingSum :: [Double] -> [Double] -> [Double]
+movingSum xs [] = [sum xs]
+movingSum (x:xs) (y:ys) = sum (x:xs) : movingSum (xs++[y]) ys
 
---countAtHour :: Int -> Int
---countAtHour h = length $ filter (=~ (printf "T%02d" :: String)) timestamps
+movingAverage :: [Double] -> Int -> [Double]
+movingAverage xs windowSize
+  | windowSize < 1 = error "Cannot have non-positive window size."
+  | windowSize > length xs = []
+  | otherwise = map (/ fromIntegral windowSize) movingSums
+  where
+    movingSums = movingSum (take windowSize xs) (drop windowSize xs)

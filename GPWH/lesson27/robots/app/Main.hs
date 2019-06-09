@@ -5,8 +5,8 @@ import qualified Data.Map as Map
 import           Robots
 
 printCost :: Maybe Double -> IO ()
-printCost Nothing     = putStrLn "missing item"
 printCost (Just cost) = print cost
+printCost _           = putStrLn "missing item"
 
 main :: IO ()
 main = do

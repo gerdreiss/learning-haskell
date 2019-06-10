@@ -2,8 +2,12 @@
 .stack-work/
 dist/
 out/
+*.dat
+*.dyn*
 *.iml
+*.hi
 *.hsplay
+*.o
 *~
 .DS_Store
 .uuid

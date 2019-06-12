@@ -48,3 +48,5 @@ lookupCredits username = Map.lookup username creditsDB
 
 creditsFromWCId :: WillCoId -> Maybe PlayerCredits
 creditsFromWCId id = Just id >>= lookupGamerId >>= lookupUserName >>= lookupCredits
+
+

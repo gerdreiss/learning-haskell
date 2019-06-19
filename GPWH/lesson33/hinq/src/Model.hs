@@ -51,6 +51,19 @@ data Course =
 instance Eq Course where
   a == b = courseId a == courseId b && courseTitle a == courseTitle b
 
+
+data HINQ m a b
+  = HINQ (m a -> m b) (m a) (m a -> m a)
+  | HINQ_ (m a -> m b) (m a)
+
+data Enrollment =
+  Enrollment
+    { student :: Int
+    , course  :: Int
+    }
+  deriving (Show)
+
+
 --------------------------------------------------------------------------------------------------------------
 -- mock data
 --------------------------------------------------------------------------------------------------------------
@@ -84,3 +97,14 @@ courses =
   , Course 701 "Biology" 400
   , Course 801 "Mathematics" 500
   ]
+
+enrollments :: [Enrollment]
+enrollments = [ Enrollment 1 101
+              , Enrollment 2 101
+              , Enrollment 2 201
+              , Enrollment 3 101
+              , Enrollment 4 201
+              , Enrollment 4 101
+              , Enrollment 5 101
+              , Enrollment 6 201
+              ]

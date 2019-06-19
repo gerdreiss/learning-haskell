@@ -2,6 +2,7 @@ module Queries where
 
 import           Control.Applicative
 import           Control.Monad       (guard)
+import           Model
 
 _select :: Monad m => (a -> b) -> m a -> m b
 _select prop vals = prop <$> vals

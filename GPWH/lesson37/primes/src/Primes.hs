@@ -1,13 +1,30 @@
 module Primes where
 
-isPrime :: Int -> Maybe Bool
-isPrime n
+data PrimeError
+  = TooLarge
+  | InvalidValue
+
+instance Show PrimeError where
+  show TooLarge     = "Value exceed max bound"
+  show InvalidValue = "Value is not a valid candidate for prime checking"
+
+maxN :: Int
+maxN = 10000
+
+primes :: [Int]
+primes = sieve [2 .. 10000]
+
+isPrime0 :: Int -> Maybe Bool
+isPrime0 n
   | n < 2 = Nothing
   | n >= length primes = Nothing
   | otherwise = Just (n `elem` primes)
 
-primes :: [Int]
-primes = sieve [2 .. 10000]
+isPrime :: Int -> Either PrimeError Bool
+isPrime n
+  | n < 2 = Left InvalidValue
+  | n > maxN = Left TooLarge
+  | otherwise = Right (n `elem` primes)
 
 sieve :: [Int] -> [Int]
 sieve [] = []
@@ -30,3 +47,8 @@ primeFactors n
   | otherwise = Just (unsafePrimeFactors n primesLessThanN)
   where
     primesLessThanN = filter (<= n) primes
+
+displayResult :: Either PrimeError Bool -> String
+displayResult (Right True)      = "It's prime"
+displayResult (Right False)     = "It's composite"
+displayResult (Left primeError) = show primeError

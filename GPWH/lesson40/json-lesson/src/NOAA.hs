@@ -49,7 +49,7 @@ data NOAAResponse = NOAAResponse
 
 instance FromJSON NOAAResponse
 
-printResults :: Maybe [NOAAResult] -> IO ()
-printResults Nothing = print "error loading data"
-printResults (Just results) = forM_ results (print . name)
+printResults :: [NOAAResult] -> IO ()
+printResults [] = print "empty result"
+printResults results = forM_ results (print . name)
 

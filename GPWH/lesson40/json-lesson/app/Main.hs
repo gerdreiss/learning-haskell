@@ -7,6 +7,8 @@ import           NOAA
 main :: IO ()
 main = do
   jsonData <- B.readFile "data.json"
-  let noaaResponse = decode jsonData :: Maybe NOAAResponse
+  let noaaResponse = eitherDecode jsonData :: Either String NOAAResponse
   let noaaResults = results <$> noaaResponse
-  printResults noaaResults
+  case noaaResults of
+    Left err -> print err
+    Right noaa -> printResults noaa

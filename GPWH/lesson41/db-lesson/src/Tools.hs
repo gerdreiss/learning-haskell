@@ -7,6 +7,7 @@ import qualified Data.Text                      as T
 import           Data.Time
 import           Database.SQLite.Simple
 import           Database.SQLite.Simple.FromRow
+import           Utils
 
 data Tool = Tool
   { toolId        :: Int
@@ -15,18 +16,6 @@ data Tool = Tool
   , lastReturned  :: Day
   , timesBorrowed :: Int
   }
-
-data User = User
-  { userId   :: Int
-  , userName :: String
-  }
-
-instance Show User where
-  show user = mconcat
-      [ show $ userId user
-      , ".)  "
-      , userName user
-      ]
 
 instance Show Tool where
   show tool = mconcat
@@ -42,16 +31,12 @@ instance Show Tool where
       , "\n"
       ]
 
-instance FromRow User where
-  fromRow = User <$> field
-                 <*> field
-
 instance FromRow Tool where
-   fromRow = Tool <$> field
-                  <*> field
-                  <*> field
-                  <*> field
-                  <*> field
+  fromRow = Tool <$> field
+                 <*> field
+                 <*> field
+                 <*> field
+                 <*> field
 
 instance ToRow Tool where
   toRow tool = [ SQLInteger $ fromIntegral $ toolId tool
@@ -62,20 +47,10 @@ instance ToRow Tool where
                ]
 
 
-addUser :: String -> IO ()
-addUser userName = withConn "tools.db" executeInsert >> print "user added"
-  where
-    executeInsert conn = execute conn "INSERT INTO users (username) VALUES (?)" (Only userName)
-
 checkout :: Int -> Int -> IO ()
 checkout userId toolId = withConn "tools.db" executeCheckout >> print "tool checked out"
   where
     executeCheckout conn = execute conn "INSERT INTO checkedout (user_id,tool_id) VALUES (?,?)" (userId, toolId)
-
-printUsers :: IO ()
-printUsers = withConn "tools.db" executeSelect
-  where
-    executeSelect conn = (query_ conn "SELECT * FROM users;" :: IO [User]) >>= mapM_ print
 
 printTools :: IO ()
 printTools = printToolQuery "SELECT * FROM tools;"
@@ -92,22 +67,13 @@ printToolQuery q =
     resp <- query_ conn q :: IO [Tool]
     mapM_ print resp
 
-withConn :: String -> (Connection -> IO ()) -> IO ()
-withConn dbName action = do
-  conn <- open dbName
-  action conn
-  close conn
-
 selectTool :: Connection -> Int -> IO (Maybe Tool)
 selectTool conn toolId = do
   resp <- query conn "SELECT * FROM tools WHERE id = (?)" (Only toolId) :: IO [Tool]
   return $ listToMaybe resp
 
 updateTool :: Tool -> Day -> Tool
-updateTool tool date = tool
-   { lastReturned  = date
-   , timesBorrowed = 1 + timesBorrowed tool
-   }
+updateTool tool date = tool {lastReturned = date, timesBorrowed = 1 + timesBorrowed tool}
 
 updateOrWarn :: Maybe Tool -> IO ()
 updateOrWarn Nothing = print "cannot persist Nothing"
@@ -133,13 +99,6 @@ checkinAndUpdate toolId = do
   checkin toolId
   updateToolTable toolId
 
-
-promptAndAddUser :: IO ()
-promptAndAddUser = do
-  putStrLn "Enter new user name"
-  userName <- getLine
-  addUser userName
-
 promptAndCheckout :: IO ()
 promptAndCheckout = do
   putStrLn "Enter the id of the user"
@@ -153,4 +112,3 @@ promptAndCheckin = do
   putStrLn "enter the id of tool"
   toolId <- pure read <*> getLine
   checkinAndUpdate toolId
-

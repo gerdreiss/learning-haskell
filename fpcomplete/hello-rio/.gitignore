@@ -1,3 +1,4 @@
 .stack-work/
 hello-rio.cabal
 *~
+stack.yaml.lock

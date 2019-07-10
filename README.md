@@ -9,3 +9,4 @@ Learning Haskell with
 * Book [Real World Haskell](http://book.realworldhaskell.org/read/)
 * Book [Get Programming with Haskell](https://livebook.manning.com/#!/book/get-programming-with-haskell)
 * Udemy Course [Haskell: Data Analysis Made Easy](https://www.udemy.com/haskell-data-analysis-made-easy)
+* FPComplete [Standard Library RIO](https://haskell.fpcomplete.com/library/rio)

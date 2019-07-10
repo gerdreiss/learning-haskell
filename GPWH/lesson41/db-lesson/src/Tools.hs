@@ -39,11 +39,11 @@ instance FromRow Tool where
                  <*> field
 
 instance ToRow Tool where
-  toRow tool = [ SQLInteger $ fromIntegral $ toolId tool
-               , SQLText $ T.pack $ name tool
-               , SQLText $ T.pack $ description tool
-               , SQLText $ T.pack $ show $ lastReturned tool
-               , SQLInteger $ fromIntegral $ timesBorrowed tool
+  toRow tool = [ SQLInteger . fromIntegral . toolId $ tool
+               , SQLText . T.pack . name $ tool
+               , SQLText . T.pack . description $ tool
+               , SQLText . T.pack . show . lastReturned $ tool
+               , SQLInteger . fromIntegral . timesBorrowed $ tool
                ]
 
 
@@ -102,13 +102,13 @@ checkinAndUpdate toolId = do
 promptAndCheckout :: IO ()
 promptAndCheckout = do
   putStrLn "Enter the id of the user"
-  userId <- pure read <*> getLine
+  userId <- read <$> getLine
   putStrLn "Enter the id of the tool"
-  toolId <- pure read <*> getLine
+  toolId <- read <$> getLine
   checkout userId toolId
 
 promptAndCheckin :: IO ()
 promptAndCheckin = do
   putStrLn "enter the id of tool"
-  toolId <- pure read <*> getLine
+  toolId <- read <$> getLine
   checkinAndUpdate toolId

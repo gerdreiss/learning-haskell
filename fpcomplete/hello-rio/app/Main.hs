@@ -8,9 +8,9 @@ import           RIO.Time  (getCurrentTime)
 import           System.IO (hPutStrLn, stderr, stdout)
 
 data App = App
-    { appName   :: !String
-    , appHandle :: !Handle
-    }
+  { appName   :: !String
+  , appHandle :: !Handle
+  }
 
 class HasHandle env where
   getHandle :: env -> Handle
@@ -23,13 +23,16 @@ instance HasHandle App where
 
 main :: IO ()
 main = do
-  let app = App { appName = "Alice", appHandle = stderr }
+  let app = App {appName = "Alice", appHandle = stderr}
   runRIO app $ do
-    sayHello
+    switchHandle stdout sayHello
     sayTime
-    sayGoodbye
-  -- Also works!
-  runRIO stdout sayTime
+
+switchHandle :: Handle -> RIO App a -> RIO App a
+switchHandle h inner = do
+  app <- ask
+  let app' = app {appHandle = h}
+  runRIO app' inner
 
 say :: HasHandle env => String -> RIO env ()
 say msg = do
@@ -45,8 +48,3 @@ sayHello :: RIO App ()
 sayHello = do
   App name _h <- ask
   say $ "Hello, " ++ name
-
-sayGoodbye :: RIO App ()
-sayGoodbye = do
-  App name _h <- ask
-  say $ "Goodbye, " ++ name

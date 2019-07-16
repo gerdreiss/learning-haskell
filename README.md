@@ -10,3 +10,5 @@ Learning Haskell with
 * Book [Get Programming with Haskell](https://livebook.manning.com/#!/book/get-programming-with-haskell)
 * Udemy Course [Haskell: Data Analysis Made Easy](https://www.udemy.com/haskell-data-analysis-made-easy)
 * FPComplete [Standard Library RIO](https://haskell.fpcomplete.com/library/rio)
+* Book [Parallel and Concurrent Programming in Haskell](https://simonmar.github.io/pages/pcph.html)
+* Book [Haskell in Depth](https://www.manning.com/books/haskell-in-depth)

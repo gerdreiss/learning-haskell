@@ -9,7 +9,9 @@ out/
 *.hsplay
 *.o
 *~
+*.lock
 .DS_Store
 .uuid
 .ipynb_checkpoints
 CourseSources
+parconc-examples-*

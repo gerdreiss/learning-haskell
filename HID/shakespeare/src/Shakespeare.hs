@@ -12,6 +12,7 @@ import qualified Data.Text.IO       as TIO
 import           System.Environment
 
 type Entry = (T.Text, Int)
+
 type Vocabulary = [Entry]
 
 extractVocab :: T.Text -> Vocabulary
@@ -22,13 +23,13 @@ extractVocab t = map buildEntry . group . sort $ ws
     cleanWord = T.dropAround (not . isLetter)
 
 allWordsReport :: Vocabulary -> T.Text
-allWordsReport vocab = T.append "\nAll words:\n" $ T.unlines $ map fst vocab
+allWordsReport = T.append "\nAll words:\n" . T.unlines . map fst
 
 wordsCount :: Vocabulary -> Int
-wordsCount vocab = sum $ map snd vocab
+wordsCount = sum . map snd
 
 wordsCountReport :: Vocabulary -> T.Text
-wordsCountReport vocab = T.append "\nTotal number of words: " $ T.pack $ show $ wordsCount vocab
+wordsCountReport = T.append "\nTotal number of words: " . T.pack . show . wordsCount
 
 wordsByFrequency :: Vocabulary -> Vocabulary
 --wordsByFrequency = sortBy (comparing $ Down . snd)

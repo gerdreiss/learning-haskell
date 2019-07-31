@@ -31,6 +31,8 @@ dependencies:
 - optparse-applicative
 - bytestring
 - safe
+- blaze-html
+- blaze-markup
 
 library:
   source-dirs: src

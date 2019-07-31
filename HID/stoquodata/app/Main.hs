@@ -2,12 +2,14 @@
 
 module Main where
 
-import           Control.Monad        (when)
-import qualified Data.ByteString.Lazy as BL (readFile)
+import           Control.Monad        (unless, when)
+import qualified Data.ByteString.Lazy as BL (readFile, writeFile)
 import           Data.Csv             (decodeByName)
 import qualified Data.Text.IO         as TIO
 
 import           Charts
+import           Data.Bool            (bool)
+import           HtmlReport
 import           Params
 import           QuoteData
 import           Statistics
@@ -25,9 +27,10 @@ work params = do
 
 generateReports :: (Functor t, Foldable t) => Params -> t QuoteData -> IO ()
 generateReports Params {..} quotes = do
-  TIO.putStr $ statReport statInfo'
+  unless no_text $ TIO.putStr $ statReport statInfo'
   when prices $ plotChart title quotes [Open, Close, High, Low] fname_prices
   when volumes $ plotChart title quotes [Volume] fname_volumes
+  when html $ BL.writeFile fname_html $ htmlReport title quotes statInfo' images
   where
     statInfo' = statInfo quotes
     withCompany pref =
@@ -38,3 +41,5 @@ generateReports Params {..} quotes = do
     fname_prices = "prices" ++ img_suffix
     fname_volumes = "volumes" ++ img_suffix
     title = "Historical Quotes" ++ withCompany " for "
+    images = concat $ zipWith (bool []) [[fname_prices], [fname_volumes]] [prices, volumes]
+    fname_html = "report" ++ withCompany "_" ++ ".html"

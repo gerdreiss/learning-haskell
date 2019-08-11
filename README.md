@@ -12,3 +12,4 @@ Learning Haskell with
 * FPComplete [Standard Library RIO](https://haskell.fpcomplete.com/library/rio)
 * Book [Parallel and Concurrent Programming in Haskell](https://simonmar.github.io/pages/pcph.html)
 * Book [Haskell in Depth](https://www.manning.com/books/haskell-in-depth)
+* Video Series [HaskellRank](https://www.youtube.com/watch?v=h_D4P-KRNKs&list=PLguYJK7ydFE4aS8fq4D6DqjF6qsysxTnx) by [Tsoding](https://www.youtube.com/channel/UCEbYhDd6c6vngsF5PQpFVWg): solving HackerRank problems in Haskell

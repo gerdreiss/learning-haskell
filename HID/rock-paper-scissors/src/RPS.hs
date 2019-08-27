@@ -24,9 +24,9 @@ instance Random Weapon where
   random = randomR (minBound, maxBound)
 
 winner :: (Weapon, Weapon) -> Winner
-winner (Paper, Rock)     = First
+winner (Paper, Rock) = First
 winner (Scissors, Paper) = First
-winner (Rock, Scissors)  = First
+winner (Rock, Scissors) = First
 winner (w1, w2) =
   if w1 == w2
     then Draw
@@ -41,4 +41,4 @@ gameRound = (,) <$> randomWeapon <*> randomWeapon
 game :: Int -> State StdGen [(Winner, Int)]
 game n = counts <$> replicateM n (winner <$> gameRound)
   where
-    counts xs = map (\xs@(x:_) -> (x, length xs)) $ group $ sort xs
+    counts = map (\xs@(x:_) -> (x, length xs)) . group . sort

@@ -1,6 +1,11 @@
 module Main where
 
-import RPS
+import           Control.Monad.State
+import           RPS
+import           System.Random
 
 main :: IO ()
-main = putStrLn "FPFTW!"
+main = do
+  g <- newStdGen
+  let r = evalState (game 10) g
+  print r

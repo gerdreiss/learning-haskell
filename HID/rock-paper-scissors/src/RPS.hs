@@ -34,3 +34,11 @@ winner (w1, w2) =
 
 randomWeapon :: State StdGen Weapon
 randomWeapon = state random
+
+gameRound :: State StdGen (Weapon, Weapon)
+gameRound = (,) <$> randomWeapon <*> randomWeapon
+
+game :: Int -> State StdGen [(Winner, Int)]
+game n = counts <$> replicateM n (winner <$> gameRound)
+  where
+    counts xs = map (\xs@(x:_) -> (x, length xs)) $ group $ sort xs

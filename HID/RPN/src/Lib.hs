@@ -32,10 +32,11 @@ push x = modify (x :)
 pop :: EvalM Integer
 pop = do
   xs <- get
-  guard (not $ null xs)
+  guard (not . null $ xs)
   put (tail xs)
   pure (head xs)
---
+
+-- naive implementation
 --evalRPN :: String -> Integer
 --evalRPN expr = evalState evalRPN' []
 --  where

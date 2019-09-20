@@ -5,6 +5,7 @@ module Control.Du where
 import           Control.Monad.RWS
 import           Data.Du
 import           Data.Foldable
+import           Options.Applicative
 import           System.Directory
 import           System.FilePath
 import           System.Posix.Files
@@ -48,3 +49,22 @@ diskUsage = do
   when isDir $ traverseDirectoryWith diskUsage
   recordEntry curPath fs
   when shouldLog $ logDiffTS st_field
+
+mkConfig :: Parser DuConfig
+mkConfig = DuConfig
+  <$> strArgument (metavar "DIRECTORY" <> value "." <> showDefault)
+  <*> option auto (metavar "DEPTH" <> short 'd' <> long "depth" <> value 0 <> showDefault <> help "Maximum depth of reporting ")
+  <*> optional (strOption (metavar "EXT" <> long "extension" <> short 'e' <> help "Filter files by extension"))
+
+printLog :: Show s => DuLog s -> IO ()
+printLog = traverse_ printEntry
+  where
+    printEntry (fp, s) = do
+      putStr $ show s ++ "\t"
+      putStrLn fp
+
+work :: DuConfig -> IO ()
+work config = do
+  (_, xs) <- runApp diskUsage config 0
+  putStrLn "File space usage:"
+  printLog xs

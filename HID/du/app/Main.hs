@@ -1,6 +1,9 @@
 module Main where
 
-import Lib
+import           Control.Du
+import           Options.Applicative
 
 main :: IO ()
-main = someFunc
+main = execParser opts >>= work
+  where
+    opts = info (mkConfig <**> helper) (fullDesc <> progDesc "File space usage info")

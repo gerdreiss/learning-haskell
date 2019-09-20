@@ -1,0 +1,66 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: a8f21306c1fb322d4a7a70507e88c7da51945f4a4924730557545ef79a561e2d
+
+name:           pgmparser
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/gerdreiss/pgmparser#readme>
+homepage:       https://github.com/gerdreiss/pgmparser#readme
+bug-reports:    https://github.com/gerdreiss/pgmparser/issues
+author:         Gerd Reiss
+maintainer:     gerdreiss@jscriptive.com
+copyright:      jscriptive.com
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/gerdreiss/pgmparser
+
+library
+  exposed-modules:
+      Parse
+      PNM
+  other-modules:
+      Paths_pgmparser
+  hs-source-dirs:
+      src
+  build-depends:
+      base
+    , bytestring
+  default-language: Haskell2010
+
+executable pgmparser-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_pgmparser
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base
+    , bytestring
+    , pgmparser
+  default-language: Haskell2010
+
+test-suite pgmparser-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_pgmparser
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base
+    , bytestring
+    , pgmparser
+  default-language: Haskell2010

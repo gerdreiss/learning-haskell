@@ -1,0 +1,67 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 057c31f216d7deab5f02c729eecf0823a1e3c234e056aad0394569eacf2b2f35
+
+name:           jsonh
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/gerdreiss/jsonh#readme>
+homepage:       https://github.com/gerdreiss/jsonh#readme
+bug-reports:    https://github.com/gerdreiss/jsonh/issues
+author:         Gerd Reiss
+maintainer:     gerdreiss@jscriptive.com
+copyright:      jscriptive.com
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/gerdreiss/jsonh
+
+library
+  exposed-modules:
+      Prettify
+      PrettifyStub
+      PrettyJSON
+      PutJSON
+      Setup
+      SimpleJSON
+  other-modules:
+      Paths_jsonh
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable jsonh-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_jsonh
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , jsonh
+  default-language: Haskell2010
+
+test-suite jsonh-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_jsonh
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , jsonh
+  default-language: Haskell2010

@@ -1,0 +1,65 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: ae2d4eedaa1afa6f43b4a01808b43c6349fed7fa40c55628350fd7ef328c7108
+
+name:           glitcher
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/gerdreiss/learning-haskell#readme>
+homepage:       https://github.com/gerdreiss/learning-haskell#readme
+bug-reports:    https://github.com/gerdreiss/learning-haskell/issues
+author:         Gerd Reiss
+maintainer:     gerdreiss@jscriptive.com
+copyright:      free
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/gerdreiss/learning-haskell
+
+library
+  exposed-modules:
+      Glitcher
+  other-modules:
+      Paths_glitcher
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , bytestring
+  default-language: Haskell2010
+
+executable glitcher-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_glitcher
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , bytestring
+    , glitcher
+  default-language: Haskell2010
+
+test-suite glitcher-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_glitcher
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , bytestring
+    , glitcher
+  default-language: Haskell2010

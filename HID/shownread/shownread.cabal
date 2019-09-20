@@ -1,0 +1,62 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 4f6c88bcff6a16cd0a7b4552b73c05ef58c7cf8765e1b568509a5d68866bbbf1
+
+name:           shownread
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/gerdreiss/shownread#readme>
+homepage:       https://github.com/gerdreiss/shownread#readme
+bug-reports:    https://github.com/gerdreiss/shownread/issues
+author:         Gerd Reiss
+maintainer:     gerdreiss@jscriptive.com
+copyright:      free
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/gerdreiss/shownread
+
+library
+  exposed-modules:
+      ShowExpr
+  other-modules:
+      Paths_shownread
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable shownread-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_shownread
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , shownread
+  default-language: Haskell2010
+
+test-suite shownread-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_shownread
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , shownread
+  default-language: Haskell2010

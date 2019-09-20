@@ -1,0 +1,66 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: a92237e42a1865e52963ccfd9abecb38c625d1a07102c03b224ae406e49b031e
+
+name:           feval
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/gerdreiss/feval#readme>
+homepage:       https://github.com/gerdreiss/feval#readme
+bug-reports:    https://github.com/gerdreiss/feval/issues
+author:         Gerd Reiss
+maintainer:     gerdreiss@jscriptive.com
+copyright:      free
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/gerdreiss/feval
+
+library
+  exposed-modules:
+      StringEval
+      TextEval
+  other-modules:
+      Paths_feval
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , text
+  default-language: Haskell2010
+
+executable feval-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_feval
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , feval
+    , text
+  default-language: Haskell2010
+
+test-suite feval-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_feval
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , feval
+    , text
+  default-language: Haskell2010

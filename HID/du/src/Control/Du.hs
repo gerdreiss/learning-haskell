@@ -65,6 +65,19 @@ printLog = traverse_ printEntry
 
 work :: DuConfig -> IO ()
 work config = do
-  (_, xs) <- runApp diskUsage config 0
-  putStrLn "File space usage:"
+  (_, xs) <- runApp fileCount config 0
+  putStrLn "File count:"
   printLog xs
+
+fileCount :: DuM Int ()
+fileCount = do
+    DuState {..} <- get
+    fs <- liftIO $ getFileStatus curPath
+    when (isDirectory fs) $ do
+      DuConfig {..} <- ask
+      when (curDepth <= maxDepth) $ traverseDirectoryWith fileCount
+      files <- liftIO $ listDirectory curPath
+      tell [(curPath, length $ filterFiles ext files)]
+  where
+    filterFiles Nothing = id
+    filterFiles (Just ext) = filter (ext `isExtensionOf`)

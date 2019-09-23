@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 84d81c556ea35548db92e33265f1ad1ae8df026e05471d79c5a53d5dd7747ad4
+-- hash: 1cab631fe6c3bfd66445f807308186e8bccaec986f76855fadc7eea8ce05c1b4
 
 name:           du
 version:        0.1.0.0
@@ -28,6 +28,7 @@ source-repository head
 library
   exposed-modules:
       Control.Du
+      Control.Du2
       Data.Du
   other-modules:
       Paths_du

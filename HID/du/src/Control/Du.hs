@@ -50,6 +50,19 @@ diskUsage = do
   recordEntry curPath fs
   when shouldLog $ logDiffTS st_field
 
+fileCount :: DuM Int ()
+fileCount = do
+    DuState {..} <- get
+    fs <- liftIO $ getFileStatus curPath
+    when (isDirectory fs) $ do
+      DuConfig {..} <- ask
+      when (curDepth <= maxDepth) $ traverseDirectoryWith fileCount
+      files <- liftIO $ listDirectory curPath
+      tell [(curPath, length $ filterFiles ext files)]
+  where
+    filterFiles Nothing = id
+    filterFiles (Just ext) = filter (ext `isExtensionOf`)
+
 mkConfig :: Parser DuConfig
 mkConfig = DuConfig
   <$> strArgument (metavar "DIRECTORY" <> value "." <> showDefault)
@@ -68,16 +81,3 @@ work config = do
   (_, xs) <- runApp fileCount config 0
   putStrLn "File count:"
   printLog xs
-
-fileCount :: DuM Int ()
-fileCount = do
-    DuState {..} <- get
-    fs <- liftIO $ getFileStatus curPath
-    when (isDirectory fs) $ do
-      DuConfig {..} <- ask
-      when (curDepth <= maxDepth) $ traverseDirectoryWith fileCount
-      files <- liftIO $ listDirectory curPath
-      tell [(curPath, length $ filterFiles ext files)]
-  where
-    filterFiles Nothing = id
-    filterFiles (Just ext) = filter (ext `isExtensionOf`)

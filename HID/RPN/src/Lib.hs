@@ -1,16 +1,22 @@
 module Lib where
 
-import           Control.Monad.Error.Class (throwError)
+import           Control.Monad.Cont        (when)
+import           Control.Monad.Error.Class (catchError, throwError)
 import           Control.Monad.Except      (ExceptT, runExceptT)
-import           Control.Monad.State
+import           Control.Monad.Reader      (ReaderT, runReaderT)
+import           Control.Monad.RWS.Class   (asks, get, gets, modify, put)
+import           Control.Monad.State.Lazy  (State, evalState)
 import           Data.Foldable             (traverse_)
-import           Safe
+import           Safe                      (readMay)
 
 type Stack = [Integer]
 
 --type EvalM = State Stack
 --type EvalM = StateT Stack Maybe
-type EvalM = ExceptT EvalError (State Stack)
+--type EvalM = ExceptT EvalError (State Stack)
+type EnvVars = [(String, Integer)]
+
+type EvalM = ReaderT EnvVars (ExceptT EvalError (State Stack))
 
 data EvalError
   = NotEnoughElements
@@ -74,13 +80,18 @@ pop = do
 --evalRPN str = evalStateT evalRPN' []
 --  where
 -- handling exceptions
-evalRPN :: String -> Either EvalError Integer
-evalRPN str = evalState (runExceptT evalRPN') []
+--evalRPN :: String -> Either EvalError Integer
+--evalRPN str = evalState (runExceptT evalRPN') []
+--  where
+-- handling exceptions within the monad stack
+evalRPN :: String -> EnvVars -> Either EvalError Integer
+evalRPN str env = evalState (runExceptT (runReaderT evalRPN' env)) []
   where
     evalRPN' = traverse_ step (words str) >> oneElementOnStack >> pop
     step "+" = processTops (+)
     step "*" = processTops (*)
-    step t   = readSafe t >>= push
+    --step t   = readSafe t >>= push
+    step t   = readSafe' t >>= push
     processTops op = op <$> pop <*> pop >>= push
 
 --
@@ -107,6 +118,12 @@ oneElementOnStack = do
 readSafe :: String -> EvalM Integer
 readSafe s = handleNaN s (readMay s)
 
+readSafe' :: String -> EvalM Integer
+readSafe' s = readSafe s `catchError` handler
+  where
+    handler (NotANumber s) = asks (lookup s) >>= handleNaN s
+    handler e              = throwError e
+
 handleNaN :: String -> Maybe Integer -> EvalM Integer
-handleNaN s Nothing = throwError (NotANumber s)
+handleNaN s Nothing  = throwError (NotANumber s)
 handleNaN _ (Just n) = pure n

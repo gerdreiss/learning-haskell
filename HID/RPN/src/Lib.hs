@@ -9,13 +9,13 @@ import           Control.Monad.State.Lazy  (State, evalState)
 import           Data.Foldable             (traverse_)
 import           Safe                      (readMay)
 
+type EnvVars = [(String, Integer)]
+
 type Stack = [Integer]
 
 --type EvalM = State Stack
 --type EvalM = StateT Stack Maybe
 --type EvalM = ExceptT EvalError (State Stack)
-type EnvVars = [(String, Integer)]
-
 type EvalM = ReaderT EnvVars (ExceptT EvalError (State Stack))
 
 data EvalError
@@ -79,10 +79,12 @@ pop = do
 --evalRPN :: String -> Maybe Integer
 --evalRPN str = evalStateT evalRPN' []
 --  where
+--
 -- handling exceptions
 --evalRPN :: String -> Either EvalError Integer
 --evalRPN str = evalState (runExceptT evalRPN') []
 --  where
+--
 -- handling exceptions within the monad stack
 evalRPN :: String -> EnvVars -> Either EvalError Integer
 evalRPN str env = evalState (runExceptT (runReaderT evalRPN' env)) []
@@ -99,6 +101,7 @@ evalRPN str env = evalState (runExceptT (runReaderT evalRPN' env)) []
 --oneElementOnStack = do
 --  l <- gets length
 --  when (l /= 1) $ lift Nothing
+--
 --oneElementOnStack :: EvalM ()
 --oneElementOnStack = do
 --  l <- gets length

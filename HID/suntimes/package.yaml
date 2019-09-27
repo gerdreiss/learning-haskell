@@ -21,6 +21,18 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
+- mtl
+- aeson
+- text
+- req
+# Also very good libraries for HTTP request:
+# - http-client
+# - http-client-tls
+# - http-conduit
+# - wreq
+- tzdata
+- tz
+- optparse-applicative
 
 library:
   source-dirs: src

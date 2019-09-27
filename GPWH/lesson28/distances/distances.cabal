@@ -1,0 +1,65 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 2ab70d38d9da37698c887473f9b5a076a1ba9381f3f9ce9dc7c62132782de688
+
+name:           distances
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/distances#readme>
+homepage:       https://github.com/githubuser/distances#readme
+bug-reports:    https://github.com/githubuser/distances/issues
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2019 Author name here
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/distances
+
+library
+  exposed-modules:
+      Dist
+  other-modules:
+      Paths_distances
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , containers
+  default-language: Haskell2010
+
+executable distances-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_distances
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , distances
+  default-language: Haskell2010
+
+test-suite distances-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_distances
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , distances
+  default-language: Haskell2010

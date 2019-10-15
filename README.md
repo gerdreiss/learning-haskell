@@ -17,6 +17,4 @@ Learning Haskell with
 
 * Video Series [HaskellRank](https://www.youtube.com/watch?v=h_D4P-KRNKs&list=PLguYJK7ydFE4aS8fq4D6DqjF6qsysxTnx) by [Tsoding](https://www.youtube.com/channel/UCEbYhDd6c6vngsF5PQpFVWg): solving HackerRank problems in Haskell
 
-* FPComplete [Standard Library RIO](https://haskell.fpcomplete.com/library/rio)
-
 * Haskell Exercises [exercism.io](http://exercism.io/languages/haskell/about)

@@ -20,13 +20,14 @@ newtype Parser a =
     }
 
 instance Functor Parser where
-  fmap f (Parser p) =
+  fmap f (Parser parse) =
     Parser $ \input -> do
-      (input', x) <- p input
-      Just (input', f x)
+      (rest, result) <- parse input
+      Just (rest, f result)
 
 {- Applicative impl for Parser. Note that
-   'fp' here is a function, because a call to <*> comes usually after
+   'fp' of the first Parser is a partially applied function,
+   because a call to <*> comes usually after
    calling <$> on the first Parser that returns a Parser
    with a partially applied function fp. e.g.
    f <$> Parser a <*> Parser b
@@ -76,13 +77,14 @@ jsonNull :: Parser JsonValue
 -- jsonNull = (const JsonNull) <$> stringP "null"
 jsonNull = JsonNull <$ stringP "null"
 
+-- should take strictly true or false, no trueee nor falsee
 jsonBool :: Parser JsonValue
 jsonBool = mkJsonBool <$> (stringP "true" <|> stringP "false")
   where
-    mkJsonBool s = JsonBool $ bool False True (s == "true")
-  -- mkJsonBool "true"  = JsonBool True
-  -- mkJsonBool "false" = JsonBool False
-  -- mkJsonBool _       = undefined -- should never happen
+    mkJsonBool s = JsonBool (s == "true")
+    --mkJsonBool "true"  = JsonBool True
+    --mkJsonBool "false" = JsonBool False
+    --mkJsonBool _       = undefined -- should never happen
 
 jsonNumber :: Parser JsonValue
 jsonNumber = toJsonNumber <$> notNull (spanP isDigit)
@@ -111,9 +113,7 @@ jsonObject :: Parser JsonValue
 jsonObject = JsonObject <$> (charP '{' *> ws *> pairs <* ws <* charP '}')
   where
     pairs = sepBy (ws *> charP ',' <* ws) pair
-    pair = (\key _ value -> (key, value)) <$> stringLiteral
-                                          <*> (ws *> charP ':' *> ws)
-                                          <*> jsonValue
+    pair = (\key _ value -> (key, value)) <$> stringLiteral <*> (ws *> charP ':' *> ws) <*> jsonValue
 
 jsonValue :: Parser JsonValue
 jsonValue = jsonNull <|> jsonBool <|> jsonNumber <|> jsonString <|> jsonArray <|> jsonObject

@@ -1,7 +1,7 @@
 module Prs where
 
-import Control.Applicative hiding (many)
-import Data.Char
+import           Control.Applicative hiding (many)
+import           Data.Char
 
 newtype Prs a =
   Prs
@@ -13,7 +13,7 @@ instance Functor Prs where
     where
       fun s =
         case runPrs p s of
-          Nothing -> Nothing
+          Nothing      -> Nothing
           Just (a, s') -> Just (f a, s')
 
 --fmap :: (a -> b) -> Prs a -> Prs b
@@ -39,8 +39,24 @@ instance Applicative Prs where
         (a, s'') <- runPrs pv s'
         return (g a, s'')
 
+instance Alternative Prs where
+  empty = Prs $ const Nothing
+  p <|> q = Prs func
+    where
+      func s =
+        let ps = runPrs p s
+         in if null ps
+              then runPrs q s
+              else ps
+
 anyChr :: Prs Char
 anyChr = Prs f
   where
-    f [] = Nothing
+    f []     = Nothing
     f (c:cs) = Just (c, cs)
+
+many :: Prs a -> Prs [a]
+many p = (:) <$> p <*> many p <|> pure []
+
+many1 :: Prs a -> Prs [a]
+many1 p = (:) <$> p <*> many p

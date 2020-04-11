@@ -55,8 +55,30 @@ anyChr = Prs f
     f []     = Nothing
     f (c:cs) = Just (c, cs)
 
+char :: Char -> Prs Char
+char ch = Prs f
+  where
+    f [] = Nothing
+    f (c:cs)
+      | c == ch = Just (c, cs)
+      | otherwise = Nothing
+
+digit :: Prs Char
+digit = Prs f
+  where
+    f [] = Nothing
+    f (c:cs)
+      | isDigit c = Just (c, cs)
+      | otherwise = Nothing
+
 many :: Prs a -> Prs [a]
 many p = (:) <$> p <*> many p <|> pure []
 
 many1 :: Prs a -> Prs [a]
 many1 p = (:) <$> p <*> many p
+
+nat :: Prs Int
+nat = read <$> many1 digit
+
+mult :: Prs Int
+mult = (*) <$> nat <* char '*' <*> nat

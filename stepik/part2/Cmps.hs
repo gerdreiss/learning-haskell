@@ -2,6 +2,8 @@
 
 module Cmps where
 
+import           Data.Monoid
+
 infixr 9 |.|
 
 newtype (|.|) f g a =
@@ -27,3 +29,18 @@ instance (Functor f, Functor g) => Functor (f |.| g) where
 
 instance (Functor f, Functor g, Functor h) => Functor (Cmps3 f g h) where
   fmap h (Cmps3 x) = Cmps3 $ fmap (fmap (fmap h)) x
+
+instance (Foldable f, Foldable g) => Foldable (f |.| g) where
+  foldMap f (Cmps2 x) = foldMap (foldMap f) x
+--
+-- not mine, but beautiful
+-- instance (Foldable f, Foldable g) => Foldable (f |.| g) where
+--   foldMap = (. getCmps) . foldMap . foldMap
+--
+-- also not bad, actually my first thought
+-- instance (Foldable f, Foldable g) => Foldable ((|.|) f g) where
+--   foldr f ini (Cmps x) = appEndo (foldMap (foldMap (Endo . f)) x) ini
+--
+-- I like that one, too
+-- instance (Foldable f, Foldable g) => Foldable (f |.| g) where
+--   foldr f ini (Cmps x) = foldr (flip $ foldr f) ini x

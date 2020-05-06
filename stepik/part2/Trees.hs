@@ -17,9 +17,23 @@ newtype Levelorder a =
   LevelO (Tree a)
   deriving (Eq, Show)
 
+instance Functor Tree where
+  fmap _ Nil            = Nil
+  fmap f (Branch l x r) = Branch (fmap f l) (f x) (fmap f r)
+
+instance Applicative Tree where
+  pure x = Branch Nil x Nil
+  Nil <*> _ = Nil
+  _ <*> Nil = Nil
+  Branch ll f lr <*> Branch rl x rr = Branch (ll <*> rl) (f x) (lr <*> rr)
+
 instance Foldable Tree where
   foldr f ini Nil            = ini
   foldr f ini (Branch l x r) = foldr f (f x (foldr f ini r)) l
+
+instance Traversable Tree where
+  sequenceA Nil = pure Nil
+  sequenceA (Branch l x r) = Branch <$> (sequenceA l) <*> x <*> (sequenceA r)
 
 instance Foldable Preorder where
   foldr f ini (PreO Nil) = ini

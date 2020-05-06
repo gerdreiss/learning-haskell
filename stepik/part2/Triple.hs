@@ -20,3 +20,9 @@ instance Applicative Triple where
 instance Foldable Triple where
   foldr f ini (Tr a b c) = foldr f ini [a, b, c]
   foldl f ini (Tr a b c) = foldl f ini [a, b, c]
+
+instance Traversable Triple where
+--sequencA :: Applicative f => f (Triple a) => Triple (f a) ???
+  sequenceA (Tr a b c) = Tr <$> a <*> b <*> c
+--traverse :: Applicative f => (a -> f b) -> Triple a -> f (Triple b) 
+  traverse f (Tr a b c) = Tr <$> f a <*> f b <*> f c

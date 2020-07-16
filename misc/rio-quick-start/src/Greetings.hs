@@ -1,4 +1,5 @@
 {-# LANGUAGE NoImplicitPrelude #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Greetings where
 
@@ -10,8 +11,9 @@ type Name = String
 
 data App =
   App
-    { appName   :: !String
-    , appHandle :: !Handle
+    { appName    :: !String
+    , appHandle  :: !Handle
+    , appLogFunc :: !LogFunc
     }
 
 class HasHandle env where
@@ -19,6 +21,9 @@ class HasHandle env where
 
 class HasName env where
   nameL :: Lens' env Name
+
+instance HasLogFunc App where
+  logFuncL = lens appLogFunc (\x y -> x {appLogFunc = y})
 
 instance HasHandle Handle where
   handleL = id
@@ -40,17 +45,18 @@ say msg = do
   h <- view handleL
   liftIO $ hPutStrLn h msg
 
-sayHello :: RIO App ()
-sayHello = do
-  App name _ <- ask
-  say $ "Hello, " ++ name
-
 sayTime :: HasHandle env => RIO env ()
 sayTime = do
   now <- getCurrentTime
   say $ "The time is: " ++ show now
 
+sayHello :: RIO App ()
+sayHello = do
+  App name _ _ <- ask
+  logInfo $ fromString $ "Before saying hello to " ++ name ++ "..."
+  say $ "Hello, " ++ name
+
 sayGoodbye :: RIO App ()
 sayGoodbye = do
-  App name _ <- ask
+  App name _ _ <- ask
   say $ "Goodbye, " ++ name

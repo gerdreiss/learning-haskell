@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 0022256991b615b5954f543654d864813b7e5f6030c7e8c5739710e8827fdc6b
+-- hash: 6ba63e6b82e64ca6031cfbacdd79f8945c6b71379df528aaeeab087e09f1fab7
 
 name:           rio-quick-start
 version:        0.1.0.0
@@ -34,6 +34,7 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , bytestring
     , rio
   default-language: Haskell2010
 
@@ -46,6 +47,7 @@ executable rio-quick-start-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , bytestring
     , rio
     , rio-quick-start
   default-language: Haskell2010
@@ -60,6 +62,7 @@ test-suite rio-quick-start-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , bytestring
     , rio
     , rio-quick-start
   default-language: Haskell2010

@@ -7,7 +7,7 @@ import           System.IO (hPutStrLn, stderr, stdout)
 
 main :: IO ()
 main = do
-  runRIO App {appName = "Ivan", appHandle = stderr} $ do
+  runRIO App {appName = "Ivan", appHandle = stderr, appLogFunc = mempty} $ do
     sayHello
     sayTime
     sayGoodbye

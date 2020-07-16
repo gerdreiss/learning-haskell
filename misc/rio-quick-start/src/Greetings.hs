@@ -53,10 +53,11 @@ sayTime = do
 sayHello :: RIO App ()
 sayHello = do
   App name _ _ <- ask
-  logInfo $ fromString $ "Before saying hello to " ++ name ++ "..."
+  logDebug $ fromString $ "Before saying hello to " ++ name ++ "..."
   say $ "Hello, " ++ name
 
 sayGoodbye :: RIO App ()
 sayGoodbye = do
   App name _ _ <- ask
+  logDebug $ fromString $ "Before saying goodbye to " ++ name ++ "..."
   say $ "Goodbye, " ++ name

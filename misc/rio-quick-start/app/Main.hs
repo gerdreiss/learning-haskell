@@ -7,8 +7,11 @@ import           System.IO (hPutStrLn, stderr, stdout)
 
 main :: IO ()
 main = do
-  runRIO App {appName = "Ivan", appHandle = stderr, appLogFunc = mempty} $ do
-    sayHello
-    sayTime
-    sayGoodbye
-  runRIO stdout sayTime
+  logOptions' <- logOptionsHandle stderr False
+  let logOptions = setLogUseTime True $ setLogUseLoc True logOptions'
+  withLogFunc logOptions $ \logFunc -> do
+    runRIO App {appName = "Ivan", appHandle = stderr, appLogFunc = logFunc} $ do
+      sayHello
+      sayTime
+      sayGoodbye
+    runRIO stdout sayTime

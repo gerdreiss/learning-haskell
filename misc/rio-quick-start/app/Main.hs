@@ -10,12 +10,12 @@ main = do
   logOptions' <- logOptionsHandle stderr False
   let logOptions = setLogUseTime True $ setLogUseLoc True logOptions'
   withLogFunc logOptions $ \logFunc -> do
-    runRIO (app logFunc) $ do
+    runRIO (app "Ivan" stderr logFunc) $ do
       sayHello
       sayTime
       sayGoodbye
     runRIO stdout sayTime
 
-app :: LogFunc -> App
-app logFunc =
-  App { appName = "Ivan", appHandle = stderr, appLogFunc = logFunc }
+app :: String -> Handle -> LogFunc -> App
+app name handle logFunc =
+  App { appName = name, appHandle = handle, appLogFunc = logFunc }

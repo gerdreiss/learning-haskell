@@ -6,6 +6,7 @@ import           Brick.AttrMap
 import           Brick.Main
 import           Brick.Types
 import           Brick.Util
+import           Brick.Widgets.Border
 import           Brick.Widgets.Core
 import           Control.Monad.IO.Class
 import           Cursor.Simple.List.NonEmpty
@@ -50,7 +51,7 @@ buildInitialState = do
 drawTui :: TuiState -> [Widget ResourceName]
 drawTui _ts =
   let nec = tuiStatePaths _ts
-  in  [ vBox $ concat
+  in  [ border . vBox $ concat
           [ map (drawPath False) . reverse . nonEmptyCursorPrev $ nec
           , [drawPath True $ nonEmptyCursorCurrent nec]
           , map (drawPath False) $ nonEmptyCursorNext nec

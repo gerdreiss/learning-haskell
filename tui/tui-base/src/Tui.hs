@@ -6,7 +6,9 @@ import           Brick.AttrMap
 import           Brick.Main
 import           Brick.Types
 import           Brick.Util
-import           Brick.Widgets.Border
+import qualified Brick.Widgets.Center          as C
+import qualified Brick.Widgets.Border          as B
+import qualified Brick.Widgets.Border.Style    as BS
 import           Brick.Widgets.Core
 import           Control.Monad.IO.Class
 import           Cursor.Simple.List.NonEmpty
@@ -16,6 +18,8 @@ import           Graphics.Vty.Attributes
 import           Graphics.Vty.Input.Events
 import           System.Directory
 import           System.Exit
+import           System.IO
+
 
 tui :: IO ()
 tui = do
@@ -23,8 +27,9 @@ tui = do
   endState     <- defaultMain tuiApp initialState
   print endState
 
-newtype TuiState = TuiState
+data TuiState = TuiState
   { tuiStatePaths :: NonEmptyCursor FilePath
+  , tuiStateFileContent :: String
   }
   deriving (Show, Eq)
 
@@ -46,15 +51,30 @@ buildInitialState = do
   contents <- getDirectoryContents here
   case NE.nonEmpty contents of
     Nothing -> die "There are no contents."
-    Just ne -> pure TuiState { tuiStatePaths = makeNonEmptyCursor ne }
+    Just ne -> pure TuiState
+      { tuiStatePaths       = makeNonEmptyCursor ne
+      , tuiStateFileContent = "select  file to display its contents here"
+      }
 
 drawTui :: TuiState -> [Widget ResourceName]
 drawTui _ts =
   let nec = tuiStatePaths _ts
-  in  [ border . vBox $ concat
-          [ map (drawPath False) . reverse . nonEmptyCursorPrev $ nec
-          , [drawPath True $ nonEmptyCursorCurrent nec]
-          , map (drawPath False) $ nonEmptyCursorNext nec
+      txt = tuiStateFileContent _ts
+  in  [ B.border $ hBox
+          [ withBorderStyle BS.unicodeRounded
+          $ B.borderWithLabel (str " file system ")
+          $ hLimit 20
+          $ C.vCenter
+          $ C.hCenter
+          $ vBox
+          $ concat
+              [ map (drawPath False) . reverse . nonEmptyCursorPrev $ nec
+              , [drawPath True $ nonEmptyCursorCurrent nec]
+              , map (drawPath False) $ nonEmptyCursorNext nec
+              ]
+          , withBorderStyle BS.unicodeRounded
+          $ B.borderWithLabel (str " file content ")
+          $ vBox [str txt]
           ]
       ]
 
@@ -83,6 +103,9 @@ handleTuiEvent s e = case e of
           liftIO . setCurrentDirectory $ selected
           s' <- liftIO buildInitialState
           continue s'
-        else continue s
+        else do
+          contents <- liftIO $ readFile selected
+          continue s { tuiStateFileContent = contents }
     _ -> continue s
   _ -> continue s
+

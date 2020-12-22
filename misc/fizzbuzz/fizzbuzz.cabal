@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.2.
+-- This file has been generated from package.yaml by hpack version 0.34.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c0458f4985f677212d8ac4321c1ec5dfa644c4b1a6111ce78d386c14e8386fe3
+-- hash: 69690d9ff7d41a78b906ec074b6c0ef97d3f57b7d0b272f159f38db21c2b0f5c
 
 name:           fizzbuzz
 version:        0.1.0.0
@@ -27,6 +27,7 @@ source-repository head
 library
   exposed-modules:
       FizzBuzz
+      Interview
   other-modules:
       Paths_fizzbuzz
   hs-source-dirs:

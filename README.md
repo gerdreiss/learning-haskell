@@ -16,7 +16,7 @@ Learning Haskell with
 * Book [Parallel and Concurrent Programming in Haskell](https://simonmar.github.io/pages/pcph.html)
 
 * Video Series [HaskellRank](https://www.youtube.com/watch?v=h_D4P-KRNKs&list=PLguYJK7ydFE4aS8fq4D6DqjF6qsysxTnx) by [Tsoding](https://www.youtube.com/channel/UCEbYhDd6c6vngsF5PQpFVWg): solving HackerRank problems in Haskell
-* Video [https://www.youtube.com/watch?v=N9RUqGYuGfw](https://www.youtube.com/watch?v=N9RUqGYuGfw) by [Tsoding](https://www.youtube.com/channel/UCEbYhDd6c6vngsF5PQpFVWg)
-* Video [Building Terminal User Interfaces with Haskell](https://www.youtube.com/watch?v=qbDQdXfcaO)
+* Video [JSON Parser 100% From Scratch in Haskell](https://www.youtube.com/watch?v=N9RUqGYuGfw) by [Tsoding](https://www.youtube.com/channel/UCEbYhDd6c6vngsF5PQpFVWg)
+* Video [AoC-2020 Day 10](https://www.youtube.com/watch?v=LjrCckaHjB0) by [Tsoding](ht    tps://www.youtube.com/channel/UCEbYhDd6c6vngsF5PQpFVWg)
 
 * Haskell Exercises [exercism.io](http://exercism.io/languages/haskell/about)

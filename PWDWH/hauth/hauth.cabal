@@ -1,0 +1,85 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 94fa369a8d72f99e6fd9c8e5b4f91dc9072b0b3353afd29d70de2cca1cedf843
+
+name:           hauth
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/gerdreiss/hauth#readme>
+homepage:       https://github.com/gerdreiss/hauth#readme
+bug-reports:    https://github.com/gerdreiss/hauth/issues
+author:         Gerd Reiss
+maintainer:     gerd@reiss.pro
+copyright:      Gerd Reiss
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/gerdreiss/hauth
+
+library
+  exposed-modules:
+      Domain.Auth
+      Domain.Validation
+      Lib
+  other-modules:
+      Paths_hauth
+  hs-source-dirs:
+      src
+  default-extensions: TemplateHaskell NoImplicitPrelude OverloadedStrings QuasiQuotes GeneralizedNewtypeDeriving ConstraintKinds FlexibleContexts
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , classy-prelude
+    , pcre-heavy
+    , template-haskell
+    , time
+    , time-lens
+  default-language: Haskell2010
+
+executable hauth-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_hauth
+  hs-source-dirs:
+      app
+  default-extensions: TemplateHaskell NoImplicitPrelude OverloadedStrings QuasiQuotes GeneralizedNewtypeDeriving ConstraintKinds FlexibleContexts
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , classy-prelude
+    , hauth
+    , pcre-heavy
+    , template-haskell
+    , time
+    , time-lens
+  default-language: Haskell2010
+
+test-suite hauth-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_hauth
+  hs-source-dirs:
+      test
+  default-extensions: TemplateHaskell NoImplicitPrelude OverloadedStrings QuasiQuotes GeneralizedNewtypeDeriving ConstraintKinds FlexibleContexts
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , classy-prelude
+    , hauth
+    , pcre-heavy
+    , template-haskell
+    , time
+    , time-lens
+  default-language: Haskell2010

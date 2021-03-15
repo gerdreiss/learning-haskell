@@ -1,8 +1,7 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Domain.Auth where
 
 import           ClassyPrelude
+import           Control.Monad.Except
 import           Domain.Validation
 import           Text.Regex.PCRE.Heavy
 
@@ -62,3 +61,35 @@ data Auth =
 data RegistrationError =
   RegistrationErrorEmailTaken
   deriving (Show, Eq)
+
+type VerificationCode = Text
+
+class Monad m =>
+      AuthRepo m
+  where
+  addAuth :: Auth -> m (Either RegistrationError VerificationCode)
+
+class Monad m =>
+      EmailVerificationNotif m
+  where
+  notifyEmailVerification :: Email -> VerificationCode -> m ()
+
+register ::
+     (AuthRepo m, EmailVerificationNotif m)
+  => Auth
+  -> m (Either RegistrationError ())
+register auth =
+  runExceptT $ do
+    vCode <- ExceptT $ addAuth auth
+    let email = authEmail auth
+    lift $ notifyEmailVerification email vCode
+
+-- fake instance implementations
+instance AuthRepo IO where
+  addAuth (Auth email pass) = do
+    putStrLn $ "addding auth: " <> rawEmail email
+    return $ Right "fake verification code"
+
+instance EmailVerificationNotif IO where
+  notifyEmailVerification email vcode =
+    putStrLn $ "Notify " <> rawEmail email <> " - " <> vcode

@@ -1,9 +1,11 @@
 module Domain.Validation where
 
 import           ClassyPrelude
+import           Data.Char
 import           Text.Regex.PCRE.Heavy
 
 type Validation e a = a -> Maybe e
+
 
 validate :: (a -> b) -> [Validation e a] -> a -> Either [e] b
 validate constructor validations val =
@@ -24,5 +26,11 @@ lengthBetween minLen maxLen msg val =
 regexMatches :: Regex -> e -> Validation e Text
 regexMatches regex msg val =
   if val =~ regex
+    then Nothing
+    else Just msg
+
+containsDigits :: e -> Validation e Text
+containsDigits msg val =
+  if isJust $ find isDigit val
     then Nothing
     else Just msg

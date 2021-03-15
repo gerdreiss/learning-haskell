@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 94fa369a8d72f99e6fd9c8e5b4f91dc9072b0b3353afd29d70de2cca1cedf843
+-- hash: 696db2ff75282ed1c325c0da78d613b55aa7c2777cd89823b896492dfecb7b9a
 
 name:           hauth
 version:        0.1.0.0
@@ -39,6 +39,7 @@ library
       aeson
     , base >=4.7 && <5
     , classy-prelude
+    , mtl
     , pcre-heavy
     , template-haskell
     , time
@@ -58,6 +59,7 @@ executable hauth-exe
     , base >=4.7 && <5
     , classy-prelude
     , hauth
+    , mtl
     , pcre-heavy
     , template-haskell
     , time
@@ -78,6 +80,7 @@ test-suite hauth-test
     , base >=4.7 && <5
     , classy-prelude
     , hauth
+    , mtl
     , pcre-heavy
     , template-haskell
     , time

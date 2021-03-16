@@ -5,15 +5,76 @@ import           Control.Monad.Except
 import           Domain.Validation
 import           Text.Regex.PCRE.Heavy
 
+--
+--
+-- Types
+--
+type VerificationCode = Text
+
 newtype Email =
   Email
     { emailRaw :: Text
     }
   deriving (Show, Eq, Ord)
 
+newtype Password =
+  Password
+    { passwordRaw :: Text
+    }
+  deriving (Show, Eq)
+
+data Auth =
+  Auth
+    { authEmail    :: Email
+    , authPassword :: Password
+    }
+  deriving (Show, Eq)
+
+data RegistrationError =
+  RegistrationErrorEmailTaken
+  deriving (Show, Eq)
+
 data EmailValidationError =
   EmailValidationErrorInvalidEmail
 
+data PasswordValidationError
+  = PasswordValidationErrorLength Int
+  | PasswordValidationErrorMustContainUpperCase
+  | PasswordValidationErrorMustContainLowerCase
+  | PasswordValidationErrorMustContainNumber
+
+--
+--
+-- Type classes
+--
+class Monad m =>
+      AuthRepo m
+  where
+  addAuth :: Auth -> m (Either RegistrationError VerificationCode)
+  setEmailAsVerified :: VerificationCode -> m (Either EmailValidationError ())
+
+class Monad m =>
+      EmailVerificationNotif m
+  where
+  notifyEmailVerification :: Email -> VerificationCode -> m ()
+
+-- mock instance implementations
+instance AuthRepo IO where
+  addAuth (Auth email pass) = do
+    putStrLn $ "addding auth: " <> rawEmail email
+    return $ Right "fake verification code"
+  setEmailAsVerified vcode = do
+    putStrLn $ "verifying email with code " <> vcode
+    return $ Right ()
+
+instance EmailVerificationNotif IO where
+  notifyEmailVerification email vcode =
+    putStrLn $ "Notify " <> rawEmail email <> " - " <> vcode
+
+--
+--
+-- Functions
+--
 rawEmail :: Email -> Text
 rawEmail = emailRaw
 
@@ -25,18 +86,6 @@ mkEmail =
         [re|^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}$|]
         "Not a valid email"
     ]
-
-newtype Password =
-  Password
-    { passwordRaw :: Text
-    }
-  deriving (Show, Eq)
-
-data PasswordValidationError
-  = PasswordValidationErrorLength Int
-  | PasswordValidationErrorMustContainUpperCase
-  | PasswordValidationErrorMustContainLowerCase
-  | PasswordValidationErrorMustContainNumber
 
 rawPassword :: Password -> Text
 rawPassword = passwordRaw
@@ -51,29 +100,6 @@ mkPassword =
     , regexMatches [re|[a-z]|] "Should contain a lowercase letter"
     ]
 
-data Auth =
-  Auth
-    { authEmail    :: Email
-    , authPassword :: Password
-    }
-  deriving (Show, Eq)
-
-data RegistrationError =
-  RegistrationErrorEmailTaken
-  deriving (Show, Eq)
-
-type VerificationCode = Text
-
-class Monad m =>
-      AuthRepo m
-  where
-  addAuth :: Auth -> m (Either RegistrationError VerificationCode)
-
-class Monad m =>
-      EmailVerificationNotif m
-  where
-  notifyEmailVerification :: Email -> VerificationCode -> m ()
-
 register ::
      (AuthRepo m, EmailVerificationNotif m)
   => Auth
@@ -84,12 +110,5 @@ register auth =
     let email = authEmail auth
     lift $ notifyEmailVerification email vCode
 
--- fake instance implementations
-instance AuthRepo IO where
-  addAuth (Auth email pass) = do
-    putStrLn $ "addding auth: " <> rawEmail email
-    return $ Right "fake verification code"
-
-instance EmailVerificationNotif IO where
-  notifyEmailVerification email vcode =
-    putStrLn $ "Notify " <> rawEmail email <> " - " <> vcode
+verifyEmail :: AuthRepo m => VerificationCode -> m (Either EmailValidationError ())
+verifyEmail = setEmailAsVerified

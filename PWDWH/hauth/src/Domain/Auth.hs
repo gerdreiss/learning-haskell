@@ -1,4 +1,32 @@
-module Domain.Auth where
+{-# LANGUAGE ConstrainedClassMethods #-}
+{-# LANGUAGE QuasiQuotes             #-}
+
+module Domain.Auth
+  -- * Types
+  ( Auth(..)
+  , Email
+  , mkEmail
+  , rawEmail
+  , Password
+  , mkPassword
+  , rawPassword
+  , UserId
+  , VerificationCode
+  , SessionId
+  , RegistrationError(..)
+  , EmailVerificationError(..)
+  , LoginError(..)
+  -- * Ports
+  , AuthRepo(..)
+  , EmailVerificationNotif(..)
+  , SessionRepo(..)
+  -- * Use cases
+  , register
+  , verifyEmail
+  , login
+  , resolveSessionId
+  , getUser
+  ) where
 
 import           ClassyPrelude
 import           Control.Monad.Except
@@ -10,6 +38,10 @@ import           Text.Regex.PCRE.Heavy
 -- Types
 --
 type VerificationCode = Text
+
+type UserId = Int
+
+type SessionId = Int
 
 newtype Email =
   Email
@@ -34,14 +66,19 @@ data RegistrationError =
   RegistrationErrorEmailTaken
   deriving (Show, Eq)
 
-data EmailValidationError =
-  EmailValidationErrorInvalidEmail
+data EmailVerificationError =
+  EmailVerificationErrorInvalidEmail
 
 data PasswordValidationError
   = PasswordValidationErrorLength Int
   | PasswordValidationErrorMustContainUpperCase
   | PasswordValidationErrorMustContainLowerCase
   | PasswordValidationErrorMustContainNumber
+
+data LoginError
+  = LoginErrorInvalidAuth
+  | LoginErrorEmailNotVerified
+  deriving (Show, Eq)
 
 --
 --
@@ -51,12 +88,24 @@ class Monad m =>
       AuthRepo m
   where
   addAuth :: Auth -> m (Either RegistrationError VerificationCode)
-  setEmailAsVerified :: VerificationCode -> m (Either EmailValidationError ())
+  setEmailAsVerified :: VerificationCode -> m (Either EmailVerificationError ())
+  findUserByAuth :: Auth -> m (Maybe (UserId, Bool))
+  findEmailFromUserId :: UserId -> m (Maybe Email)
+  getUser :: AuthRepo m => UserId -> m (Maybe Email)
+  getUser = findEmailFromUserId
 
 class Monad m =>
       EmailVerificationNotif m
   where
   notifyEmailVerification :: Email -> VerificationCode -> m ()
+
+class Monad m =>
+      SessionRepo m
+  where
+  newSession :: UserId -> m SessionId
+  findUserIdBySessionId :: SessionId -> m (Maybe UserId)
+  resolveSessionId :: SessionRepo m => SessionId -> m (Maybe UserId)
+  resolveSessionId = findUserIdBySessionId
 
 -- mock instance implementations
 instance AuthRepo IO where
@@ -110,5 +159,15 @@ register auth =
     let email = authEmail auth
     lift $ notifyEmailVerification email vCode
 
-verifyEmail :: AuthRepo m => VerificationCode -> m (Either EmailValidationError ())
+verifyEmail ::
+     AuthRepo m => VerificationCode -> m (Either EmailVerificationError ())
 verifyEmail = setEmailAsVerified
+
+login :: (AuthRepo m, SessionRepo m) => Auth -> m (Either LoginError SessionId)
+login auth =
+  runExceptT $ do
+    result <- lift $ findUserByAuth auth
+    case result of
+      Nothing         -> throwError LoginErrorInvalidAuth
+      Just (_, False) -> throwError LoginErrorEmailNotVerified
+      Just (uId, _)   -> lift $ newSession uId

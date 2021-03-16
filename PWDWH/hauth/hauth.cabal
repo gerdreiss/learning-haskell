@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3592911822c176c8abed33de4c769a666deb471a27d380dba17575d977acc844
+-- hash: 87d708831c4283fc1c8761e6c41aaac10e5a376fa065c9e48870c0f83ee16662
 
 name:           hauth
 version:        0.1.0.0
@@ -43,6 +43,7 @@ library
     , data-has
     , mtl
     , pcre-heavy
+    , string-random
     , template-haskell
     , time
     , time-lens
@@ -64,6 +65,7 @@ executable hauth-exe
     , hauth
     , mtl
     , pcre-heavy
+    , string-random
     , template-haskell
     , time
     , time-lens
@@ -86,6 +88,7 @@ test-suite hauth-test
     , hauth
     , mtl
     , pcre-heavy
+    , string-random
     , template-haskell
     , time
     , time-lens

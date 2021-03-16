@@ -2,7 +2,9 @@ module Adapter.InMemory.Auth where
 
 import           ClassyPrelude
 import           Data.Has
-import qualified Domain.Auth   as D
+import           Text.StringRandom
+
+import qualified Domain.Auth       as D
 
 type InMemory r m = (Has (TVar State) r, MonadReader r m, MonadIO m)
 
@@ -28,11 +30,14 @@ initialState =
     , stateSessions = mempty
     }
 
-addAuth :: InMemory r m => D.Auth -> m (Either D.RegistrationError D.VerificationCode)
+addAuth ::
+  InMemory r m => D.Auth -> m (Either D.RegistrationError D.VerificationCode)
 addAuth = undefined
 
 setEmailAsVerified ::
-     InMemory r m => D.VerificationCode -> m (Either D.EmailVerificationError ())
+     InMemory r m
+  => D.VerificationCode
+  -> m (Either D.EmailVerificationError ())
 setEmailAsVerified = undefined
 
 findUserByAuth :: InMemory r m => D.Auth -> m (Maybe (D.UserId, Bool))
@@ -45,7 +50,18 @@ notifyEmailVerification :: InMemory r m => D.Email -> D.VerificationCode -> m ()
 notifyEmailVerification = undefined
 
 newSession :: InMemory r m => D.UserId -> m D.SessionId
-newSession = undefined
+newSession uId = do
+  tvar <- asks getter
+  sId <- liftIO $ (tshow uId <>) <$> stringRandomIO "[A-Za-z0-9]{16}"
+  atomically $ do
+    state <- readTVar tvar
+    let sessions = stateSessions state
+        newSessions = insertMap sId uId sessions
+        newState = state {stateSessions = newSessions}
+    writeTVar tvar newState
+    return sId
 
 findUserIdBySessionId :: InMemory r m => D.SessionId -> m (Maybe D.UserId)
-findUserIdBySessionId = undefined
+findUserIdBySessionId sId = do
+  tvar <- asks getter
+  liftIO $ lookup sId . stateSessions <$> readTVarIO tvar

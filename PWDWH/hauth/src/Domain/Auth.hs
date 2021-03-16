@@ -38,10 +38,8 @@ import           Text.Regex.PCRE.Heavy
 -- Types
 --
 type VerificationCode = Text
-
 type UserId = Int
-
-type SessionId = Int
+type SessionId = Text
 
 newtype Email =
   Email

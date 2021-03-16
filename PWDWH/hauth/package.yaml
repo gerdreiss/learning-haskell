@@ -24,11 +24,12 @@ dependencies:
 - classy-prelude
 - aeson
 - data-has
+- mtl
 - pcre-heavy # install pcre pkg-config on macos
+- string-random
 - template-haskell
 - time
 - time-lens
-- mtl
 
 default-extensions:
 - TemplateHaskell

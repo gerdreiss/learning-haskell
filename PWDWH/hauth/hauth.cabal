@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 696db2ff75282ed1c325c0da78d613b55aa7c2777cd89823b896492dfecb7b9a
+-- hash: 3592911822c176c8abed33de4c769a666deb471a27d380dba17575d977acc844
 
 name:           hauth
 version:        0.1.0.0
@@ -27,6 +27,7 @@ source-repository head
 
 library
   exposed-modules:
+      Adapter.InMemory.Auth
       Domain.Auth
       Domain.Validation
       Lib
@@ -39,6 +40,7 @@ library
       aeson
     , base >=4.7 && <5
     , classy-prelude
+    , data-has
     , mtl
     , pcre-heavy
     , template-haskell
@@ -58,6 +60,7 @@ executable hauth-exe
       aeson
     , base >=4.7 && <5
     , classy-prelude
+    , data-has
     , hauth
     , mtl
     , pcre-heavy
@@ -79,6 +82,7 @@ test-suite hauth-test
       aeson
     , base >=4.7 && <5
     , classy-prelude
+    , data-has
     , hauth
     , mtl
     , pcre-heavy

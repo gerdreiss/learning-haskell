@@ -23,6 +23,7 @@ dependencies:
 - base >= 4.7 && < 5
 - classy-prelude
 - aeson
+- data-has
 - pcre-heavy # install pcre pkg-config on macos
 - template-haskell
 - time

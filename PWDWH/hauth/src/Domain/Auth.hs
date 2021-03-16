@@ -1,8 +1,8 @@
+{-# LANGUAGE AllowAmbiguousTypes     #-}
 {-# LANGUAGE ConstrainedClassMethods #-}
-{-# LANGUAGE QuasiQuotes             #-}
 
 module Domain.Auth
-  -- * Types
+    -- * Types
   ( Auth(..)
   , Email
   , mkEmail
@@ -16,11 +16,11 @@ module Domain.Auth
   , RegistrationError(..)
   , EmailVerificationError(..)
   , LoginError(..)
-  -- * Ports
+    -- * Ports
   , AuthRepo(..)
   , EmailVerificationNotif(..)
   , SessionRepo(..)
-  -- * Use cases
+    -- * Use cases
   , register
   , verifyEmail
   , login
@@ -109,12 +109,15 @@ class Monad m =>
 
 -- mock instance implementations
 instance AuthRepo IO where
-  addAuth (Auth email pass) = do
+  addAuth (Auth email _) = do
     putStrLn $ "addding auth: " <> rawEmail email
     return $ Right "fake verification code"
   setEmailAsVerified vcode = do
     putStrLn $ "verifying email with code " <> vcode
     return $ Right ()
+  findUserByAuth _ = return $ Just (1, True)
+  findEmailFromUserId _ =
+    return $ either (const Nothing) Just (mkEmail "test@example.com")
 
 instance EmailVerificationNotif IO where
   notifyEmailVerification email vcode =

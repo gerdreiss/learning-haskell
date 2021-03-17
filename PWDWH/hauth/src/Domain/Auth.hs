@@ -64,8 +64,9 @@ data RegistrationError =
   RegistrationErrorEmailTaken
   deriving (Show, Eq)
 
-data EmailVerificationError =
-  EmailVerificationErrorInvalidEmail
+data EmailVerificationError 
+  = EmailVerificationErrorInvalidEmail
+  | EmailVerificationErrorInvalidCode
 
 data PasswordValidationError
   = PasswordValidationErrorLength Int

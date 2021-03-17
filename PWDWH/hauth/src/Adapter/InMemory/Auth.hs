@@ -127,3 +127,10 @@ findUserIdBySessionId :: InMemory r m => D.SessionId -> m (Maybe D.UserId)
 findUserIdBySessionId sId = do
   tvar <- asks getter
   liftIO $ lookup sId . stateSessions <$> readTVarIO tvar
+
+getNotificationsForEmail ::
+     InMemory r m => D.Email -> m (Maybe D.VerificationCode)
+getNotificationsForEmail email = do
+  tvar <- asks getter
+  state <- liftIO $ readTVarIO tvar
+  return $ lookup email $ stateNotifications state

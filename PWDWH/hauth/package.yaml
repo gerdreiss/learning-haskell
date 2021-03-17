@@ -32,13 +32,13 @@ dependencies:
 - time-lens
 
 default-extensions:
-- TemplateHaskell
+- ConstraintKinds
+- FlexibleContexts
+- GeneralizedNewtypeDeriving
 - NoImplicitPrelude
 - OverloadedStrings
 - QuasiQuotes
-- GeneralizedNewtypeDeriving
-- ConstraintKinds
-- FlexibleContexts
+- TemplateHaskell
 
 library:
   source-dirs: src

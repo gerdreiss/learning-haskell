@@ -47,7 +47,14 @@ findEmailFromUserId :: InMemory r m => D.UserId -> m (Maybe D.Email)
 findEmailFromUserId = undefined
 
 notifyEmailVerification :: InMemory r m => D.Email -> D.VerificationCode -> m ()
-notifyEmailVerification = undefined
+notifyEmailVerification email vCode = do
+  tvar <- asks getter
+  atomically $ do
+    state <- readTVar tvar
+    let notifications = stateNotifications state
+        newNotifications = insertMap email vCode notifications
+        newState = state { stateNotifications = newNotifications }
+    writeTVar tvar newState
 
 newSession :: InMemory r m => D.UserId -> m D.SessionId
 newSession uId = do

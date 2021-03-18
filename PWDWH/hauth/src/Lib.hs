@@ -5,16 +5,23 @@ where
 
 import qualified Adapter.InMemory.Auth         as M
 import           ClassyPrelude
-import           Control.Monad.Except
 import           Domain.Auth
+import           Katip
 
 type State = TVar M.State
 
-newtype App a =
-  App
-    { unApp :: ReaderT State IO a
-    }
-  deriving (Applicative, Functor, Monad, MonadFail, MonadReader State, MonadIO)
+newtype App a = App
+  { unApp :: ReaderT State (KatipContextT IO) a
+  }
+  deriving
+    ( Applicative,
+      Functor,
+      Monad,
+      MonadReader State,
+      MonadIO,
+      KatipContext,
+      Katip
+    )
 
 instance AuthRepo App where
   addAuth             = M.addAuth
@@ -29,8 +36,21 @@ instance SessionRepo App where
   newSession            = M.newSession
   findUserIdBySessionId = M.findUserIdBySessionId
 
-run :: State -> App a -> IO a
-run state = flip runReaderT state . unApp
+someFunc :: IO ()
+someFunc = withKatip $ \le -> do
+  state <- newTVarIO M.initialState
+  run le state action
+
+withKatip :: (LogEnv -> IO a) -> IO a
+withKatip = bracket createLogEnv closeScribes
+ where
+  createLogEnv = do
+    logEnv       <- initLogEnv "HAuth" "prod"
+    stdoutScribe <- mkHandleScribe ColorIfTerminal stdout InfoS V2
+    registerScribe "stdout" stdoutScribe defaultScribeSettings logEnv
+
+run :: LogEnv -> State -> App a -> IO a
+run le state = runKatipContextT le () mempty . flip runReaderT state . unApp
 
 action :: App ()
 action = do
@@ -44,8 +64,3 @@ action = do
   Just  uId             <- resolveSessionId session
   Just  registeredEmail <- getUser uId
   print (session, uId, registeredEmail)
-
-someFunc :: IO ()
-someFunc = do
-  state <- newTVarIO M.initialState
-  run state action

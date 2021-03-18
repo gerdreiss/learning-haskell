@@ -4,11 +4,11 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8368c5bf7109999c38221c811d2d58b5635e1131b699833789a50001cc24e343
+-- hash: ca7ca8ad339b12432da7a4db632a4a0c95dd8a4b2a99f6d158176ee9f1c2619d
 
 name:           hauth
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/gerdreiss/hauth#readme>
+description:    Please see the README on GitHub at <https://github.com/gerdreiss/learning-haskell/blob/master/PWDWH/hauth/README.md>
 homepage:       https://github.com/gerdreiss/hauth#readme
 bug-reports:    https://github.com/gerdreiss/hauth/issues
 author:         Gerd Reiss
@@ -41,6 +41,7 @@ library
     , base >=4.7 && <5
     , classy-prelude
     , data-has
+    , katip
     , mtl
     , pcre-heavy
     , string-random
@@ -63,6 +64,7 @@ executable hauth-exe
     , classy-prelude
     , data-has
     , hauth
+    , katip
     , mtl
     , pcre-heavy
     , string-random
@@ -86,6 +88,7 @@ test-suite hauth-test
     , classy-prelude
     , data-has
     , hauth
+    , katip
     , mtl
     , pcre-heavy
     , string-random

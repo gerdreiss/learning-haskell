@@ -5,6 +5,7 @@ where
 
 import qualified Adapter.InMemory.Auth         as M
 import           ClassyPrelude
+import           Control.Monad.Except
 import           Domain.Auth
 import           Katip
 
@@ -17,8 +18,9 @@ newtype App a = App
     ( Applicative,
       Functor,
       Monad,
+      MonadFail,
       MonadReader State,
-      MonadIO,
+      MonadIO,      
       KatipContext,
       Katip
     )
@@ -46,7 +48,7 @@ withKatip = bracket createLogEnv closeScribes
  where
   createLogEnv = do
     logEnv       <- initLogEnv "HAuth" "prod"
-    stdoutScribe <- mkHandleScribe ColorIfTerminal stdout InfoS V2
+    stdoutScribe <- mkHandleScribe ColorIfTerminal stdout (\_ -> return True) V2
     registerScribe "stdout" stdoutScribe defaultScribeSettings logEnv
 
 run :: LogEnv -> State -> App a -> IO a

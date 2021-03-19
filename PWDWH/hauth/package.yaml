@@ -25,8 +25,12 @@ dependencies:
 - aeson
 - data-has
 - katip
+- exceptions
 - mtl
 - pcre-heavy # install pcre pkg-config on macos
+- postgresql-simple # install postgresql on macos
+- postgresql-simple-migration # install postgresql on macos
+- resource-pool
 - string-random
 - template-haskell
 - time

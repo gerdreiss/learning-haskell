@@ -4,7 +4,6 @@ import qualified Domain.Auth                   as D
 import           ClassyPrelude
 import           Control.Monad.Except
 import           Data.Has
-import           Text.StringRandom
 
 type InMemory r m = (Has (TVar State) r, MonadReader r m, MonadIO m)
 
@@ -34,7 +33,7 @@ addAuth
 addAuth auth = do
   tvar  <- asks getter
   -- gen verification code
-  vCode <- liftIO $ stringRandomIO "[A-Za-z0-9]{16}"
+  vCode <- liftIO D.randomVCode
   atomically . runExceptT $ do
     state <- lift $ readTVar tvar
     -- check whether the given email is duplicate
@@ -117,7 +116,7 @@ getNotificationsForEmail email = do
 newSession :: InMemory r m => D.UserId -> m D.SessionId
 newSession uId = do
   tvar <- asks getter
-  sId  <- liftIO $ (tshow uId <>) <$> stringRandomIO "[A-Za-z0-9]{16}"
+  sId  <- liftIO $ (tshow uId <>) <$> D.randomVCode
   atomically $ do
     state <- readTVar tvar
     let sessions    = stateSessions state

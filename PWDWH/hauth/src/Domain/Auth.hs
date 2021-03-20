@@ -28,6 +28,10 @@ module Domain.Auth
     login,
     resolveSessionId,
     getUser,
+    
+    -- * util
+    randomVCode,
+    emailVerificationCode
   )
 where
 
@@ -36,6 +40,7 @@ import           Control.Monad.Except
 import           Domain.Validation
 import           Katip
 import           Text.Regex.PCRE.Heavy
+import           Text.StringRandom
 
 --
 --
@@ -121,6 +126,12 @@ instance EmailVerificationNotif IO where
 --
 -- Functions
 --
+randomVCode :: IO Text
+randomVCode = stringRandomIO "[A-Za-z0-9]{16}"
+
+emailVerificationCode :: Email -> IO Text
+emailVerificationCode email = (\code -> rawEmail email <> "_" <> code) <$> randomVCode
+
 rawEmail :: Email -> Text
 rawEmail = emailRaw
 

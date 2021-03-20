@@ -99,8 +99,8 @@ setEmailAsVerified vCode = withConn updateAuths >>= processResult
   processResult _ = return $ Left D.EmailVerificationErrorInvalidCode
 
 
-findUserbyAuth :: PG r m => D.Auth -> m (Maybe (D.UserId, Bool))
-findUserbyAuth (D.Auth email pass) = withConn queryAuths >>= processResult
+findUserByAuth :: PG r m => D.Auth -> m (Maybe (D.UserId, Bool))
+findUserByAuth (D.Auth email pass) = withConn queryAuths >>= processResult
  where
   queryAuths conn = query conn qry (D.rawEmail email, D.rawPassword pass)
   qry
@@ -109,4 +109,21 @@ findUserbyAuth (D.Auth email pass) = withConn queryAuths >>= processResult
           \where email = ? and pass = crypt(?, pass)"
   processResult [(uId, isVerified)] = return $ Just (uId, isVerified)
   processResult _                   = return Nothing
+
+findEmailFromUserId :: PG r m => D.UserId -> m (Maybe D.Email)
+findEmailFromUserId uId = do
+  result <- withConn $ \conn -> query conn qry (Only uId)
+  case result of
+    [Only mail] -> case D.mkEmail mail of
+      Right email -> return $ Just email
+      _ ->
+        throwString
+          $  "Should not happen: email in DB not valid: "
+          <> unpack mail
+    _ -> return Nothing
+ where
+  qry =
+    "select cast(email as text) \
+         \from auths \
+         \where id = ?"
 

@@ -126,11 +126,11 @@ instance EmailVerificationNotif IO where
 --
 -- Functions
 --
-randomVCode :: IO Text
-randomVCode = stringRandomIO "[A-Za-z0-9]{16}"
+randomVCode :: Int -> IO Text
+randomVCode len = stringRandomIO $ "[A-Za-z0-9]{"<> tshow len <> "}"
 
 emailVerificationCode :: Email -> IO Text
-emailVerificationCode email = (\code -> rawEmail email <> "_" <> code) <$> randomVCode
+emailVerificationCode email = (\code -> rawEmail email <> "_" <> code) <$> randomVCode 16
 
 rawEmail :: Email -> Text
 rawEmail = emailRaw

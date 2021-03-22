@@ -33,7 +33,7 @@ addAuth
 addAuth auth = do
   tvar  <- asks getter
   -- gen verification code
-  vCode <- liftIO D.randomVCode
+  vCode <- liftIO $ D.randomVCode 16
   atomically . runExceptT $ do
     state <- lift $ readTVar tvar
     -- check whether the given email is duplicate
@@ -116,7 +116,7 @@ getNotificationsForEmail email = do
 newSession :: InMemory r m => D.UserId -> m D.SessionId
 newSession uId = do
   tvar <- asks getter
-  sId  <- liftIO $ (tshow uId <>) <$> D.randomVCode
+  sId  <- liftIO $ (tshow uId <>) <$> D.randomVCode 16
   atomically $ do
     state <- readTVar tvar
     let sessions    = stateSessions state

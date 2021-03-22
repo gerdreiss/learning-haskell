@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ca041bd7f61416f0685ca36a1e720c1a5db9291905fb58b4b1f432188451c756
+-- hash: b7c0591471eaa6be16b22db03d7b81fbe0cce3368af77e7a8a923891733096aa
 
 name:           hauth
 version:        0.1.0.0
@@ -29,6 +29,7 @@ library
   exposed-modules:
       Adapter.InMemory.Auth
       Adapter.PostgreSQL.Auth
+      Adapter.Redis.Auth
       Domain.Auth
       Domain.Validation
       Lib
@@ -43,6 +44,7 @@ library
     , classy-prelude
     , data-has
     , exceptions
+    , hedis
     , katip
     , mtl
     , pcre-heavy
@@ -70,6 +72,7 @@ executable hauth-exe
     , data-has
     , exceptions
     , hauth
+    , hedis
     , katip
     , mtl
     , pcre-heavy
@@ -98,6 +101,7 @@ test-suite hauth-test
     , data-has
     , exceptions
     , hauth
+    , hedis
     , katip
     , mtl
     , pcre-heavy

@@ -24,8 +24,9 @@ dependencies:
 - classy-prelude
 - aeson
 - data-has
-- katip
 - exceptions
+- hedis
+- katip
 - mtl
 - pcre-heavy # install pcre pkg-config on macos
 - postgresql-simple # install postgresql on macos

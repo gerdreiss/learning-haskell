@@ -1,10 +1,10 @@
 module Lib
   ( someFunc
-  )
-where
+  ) where
 
 import qualified Adapter.InMemory.Auth         as M
 import qualified Adapter.PostgreSQL.Auth       as PG
+import qualified Adapter.Redis.Auth            as Redis
 import           ClassyPrelude
 import           Control.Monad.Catch            ( MonadThrow )
 import           Control.Monad.Except
@@ -12,7 +12,8 @@ import           Domain.Auth
 import           Katip
 
 --type State = TVar M.State
-type State = (PG.State, TVar M.State)
+--type State = (PG.State, TVar M.State)
+type State = (PG.State, Redis.State, TVar M.State)
 
 newtype App a = App
   { unApp :: ReaderT State (KatipContextT IO) a
@@ -23,7 +24,7 @@ newtype App a = App
       Monad,
       MonadFail,
       MonadReader State,
-      MonadIO,      
+      MonadIO,
       MonadThrow,
       KatipContext,
       Katip
@@ -39,20 +40,23 @@ instance EmailVerificationNotif App where
   notifyEmailVerification = M.notifyEmailVerification
 
 instance SessionRepo App where
-  newSession            = M.newSession
-  findUserIdBySessionId = M.findUserIdBySessionId
+  newSession            = Redis.newSession
+  findUserIdBySessionId = Redis.findUserIdBySessionId
 
 someFunc :: IO ()
 someFunc = withKatip $ \le -> do
 --  state <- newTVarIO M.initialState
 --  run le state action
   mState <- newTVarIO M.initialState
-  PG.withState pgCfg $ \pgState -> run le (pgState, mState) action
-  where pgCfg = PG.Config { PG.configUrl = "postgresql://localhost/hauth"
-                          , PG.configStripeCount = 2
-                          , PG.configMaxOpenConnPerStripe = 5
-                          , PG.configIdleConnTimeout = 10
-                          }
+  PG.withState pgCfg $ \pgState -> Redis.withState redisCfg
+    $ \redisState -> run le (pgState, redisState, mState) action
+ where
+  pgCfg = PG.Config { PG.configUrl = "postgresql://localhost/hauth"
+                    , PG.configStripeCount          = 2
+                    , PG.configMaxOpenConnPerStripe = 5
+                    , PG.configIdleConnTimeout      = 10
+                    }
+  redisCfg = "redis://localhost:6379/0"
 
 withKatip :: (LogEnv -> IO a) -> IO a
 withKatip = bracket createLogEnv closeScribes

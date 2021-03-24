@@ -28,7 +28,7 @@ module Domain.Auth
     login,
     resolveSessionId,
     getUser,
-    
+
     -- * util
     randomVCode,
     emailVerificationCode

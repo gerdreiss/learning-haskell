@@ -32,6 +32,7 @@ dependencies:
 - postgresql-simple # install postgresql on macos
 - postgresql-simple-migration # install postgresql on macos
 - resource-pool
+- scotty
 - string-random
 - template-haskell
 - time

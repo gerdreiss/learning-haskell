@@ -26,6 +26,7 @@ dependencies:
 - data-has
 - exceptions
 - hedis
+- http-types
 - katip
 - mtl
 - pcre-heavy # install pcre pkg-config on macos

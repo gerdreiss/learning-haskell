@@ -1,7 +1,7 @@
 module Adapter.HTTP.Main where
 
 import           ClassyPrelude           hiding ( delete )
-
+import           Network.HTTP.Types.Status      ( unauthorized401 )
 import           Web.Scotty.Trans
 
 main :: IO ()
@@ -9,7 +9,15 @@ main = scottyT 3000 id routes
 
 routes :: (MonadIO m) => ScottyT LText m ()
 routes = do
-  get "/hello" $ text "Hello!"
+  get "/unauth" $ do
+    status unauthorized401
+    addHeader "serverName" "gandalfService"
+    text "you shall not pass !"
+
+  get "/hello" $ do
+    name <- param "name" `rescue` \_ -> return "anonymous"
+    text $ "Hello, " <> name
+
   get "/hello/:name" $ param "name" >>= text . ("Hello, " <>)
 
   get "/users/:userId/books/:bookId" $ do
@@ -31,3 +39,5 @@ routes = do
   matchAny "/admin" $ text "I don't care about your HTTP verb"
   options (regex ".*") $ text "CORS usually use this"
   notFound $ text "404"
+
+  defaultHandler $ \_ -> text "Something went terribly wrong :("

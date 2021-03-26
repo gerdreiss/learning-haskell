@@ -19,5 +19,6 @@ Learning Haskell with
 * Video Series [HaskellRank](https://www.youtube.com/watch?v=h_D4P-KRNKs&list=PLguYJK7ydFE4aS8fq4D6DqjF6qsysxTnx) by [Tsoding](https://www.youtube.com/channel/UCEbYhDd6c6vngsF5PQpFVWg): solving HackerRank problems in Haskell
 * Video [JSON Parser 100% From Scratch in Haskell](https://www.youtube.com/watch?v=N9RUqGYuGfw) by [Tsoding](https://www.youtube.com/channel/UCEbYhDd6c6vngsF5PQpFVWg)
 * Video [AoC-2020 Day 10](https://www.youtube.com/watch?v=LjrCckaHjB0) by [Tsoding](https://www.youtube.com/channel/UCEbYhDd6c6vngsF5PQpFVWg)
+* Stream [Quick Rogue-Like Game in Haskell](https://www.twitch.tv/videos/962608412) by [Tsoding](https://www.twitch.tv/tsoding)
 
 * Haskell Exercises [exercism.io](http://exercism.io/languages/haskell/about)

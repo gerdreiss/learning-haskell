@@ -1,0 +1,70 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 500ae6cdbdcdb27c79bfc0f86dd3886e5e2d99b6d7db20b2b126886df32575d3
+
+name:           rogalik
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/gerdreiss/rogalik#readme>
+homepage:       https://github.com/gerdreiss/rogalik#readme
+bug-reports:    https://github.com/gerdreiss/rogalik/issues
+author:         Gerd Reiss
+maintainer:     gerd@reiss.pro
+copyright:      Gerd Reiss
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/gerdreiss/rogalik
+
+library
+  exposed-modules:
+      Control.Rogalik
+      Data.Rogalik
+      Lib
+  other-modules:
+      Paths_rogalik
+  hs-source-dirs:
+      src
+  build-depends:
+      array
+    , base >=4.7 && <5
+    , containers
+  default-language: Haskell2010
+
+executable rogalik-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_rogalik
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      array
+    , base >=4.7 && <5
+    , containers
+    , rogalik
+  default-language: Haskell2010
+
+test-suite rogalik-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_rogalik
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      array
+    , base >=4.7 && <5
+    , containers
+    , rogalik
+  default-language: Haskell2010

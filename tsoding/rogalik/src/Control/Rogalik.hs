@@ -6,7 +6,6 @@ import           Data.Array
 import           Data.Rogalik
 
 -- | Room functions
-
 mkRoom :: Rows -> Cols -> Room
 mkRoom rows cols = Room cols rows mempty
 
@@ -33,7 +32,6 @@ testRoom =
   addItem (1, 1) (ItemWeapon Sword) . addItem (0, 0) (Gold 69) $ mkRoom 10 20
 
 -- | Display Functions
-
 mkDisplay :: Width -> Height -> Display
 mkDisplay width height = Display width height pixels
  where
@@ -42,10 +40,20 @@ mkDisplay width height = Display width height pixels
     [ ((x, y), ' ') | x <- [0 .. width - 1], y <- [0 .. height - 1] ]
 
 showDisplay :: Display -> String
-showDisplay display = ""
+showDisplay display = unlines
+  [ [ displayPixels display ! (x, y) | x <- [0 .. displayWidth display - 1] ]
+  | y <- [0 .. displayHeight display - 1]
+  ]
+
+clearDisplay :: Display -> Display
+clearDisplay display = display
+  { displayPixels = displayPixels display
+                      // [ ((x, y), ' ')
+                         | x <- [0 .. displayWidth display - 1]
+                         , y <- [0 .. displayHeight display - 1]
+                         ]
+  }
 
 -- | Rogalik functions
-
 getRoom :: Index Room -> Rogalik -> Room
 getRoom idx rogalik = rogalikRooms rogalik ! idx
-

@@ -7,11 +7,8 @@ import           Data.Rogalik
 
 
 itemChar :: Item -> Char
-itemChar (Gold _) = '*'
-itemChar Coq      = 'D'
-
-mkRoom :: Rows -> Cols -> Room
-mkRoom rows cols = Room cols rows mempty
+itemChar (Gold       _    ) = '*'
+itemChar (ItemWeapon Sword) = '/'
 
 getRoom :: Index Room -> Rogalik -> Room
 getRoom idx rogalik = rogalikRooms rogalik ! idx
@@ -31,4 +28,5 @@ showRoom room =
   where itemCh r c = maybe '.' itemChar $ M.lookup (r, c) (roomItems room)
 
 testRoom :: Room
-testRoom = addItem (1, 1) Coq . addItem (0, 0) (Gold 69) $ mkRoom 10 20
+testRoom =
+  addItem (1, 1) (ItemWeapon Sword) . addItem (0, 0) (Gold 69) $ mkRoom 10 20

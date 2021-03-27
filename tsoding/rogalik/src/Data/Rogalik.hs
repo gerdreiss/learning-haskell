@@ -8,9 +8,14 @@ type Row = Int
 type Cols = Int
 type Col = Int
 
-newtype Index a = Index Int deriving (Eq, Ord, Ix, Show)
+newtype Index a =
+  Index Int
+  deriving (Eq, Ord, Ix, Show)
 
-data Item = Gold Int | Coq deriving (Show)
+data Item
+  = Gold Int
+  | ItemWeapon Weapon
+  deriving (Show)
 
 data Room = Room
   { roomCols  :: Cols
@@ -19,7 +24,8 @@ data Room = Room
   }
   deriving Show
 
-data Weapon
+data Weapon = Sword
+  deriving Show
 
 data Player = Player
   { playerRoom    :: Index Room
@@ -33,3 +39,6 @@ data Rogalik = Rogalik
   { rogalikRooms  :: Array (Index Room) Room
   , rogalikPlayer :: Player
   }
+
+mkRoom :: Rows -> Cols -> Room
+mkRoom rows cols = Room cols rows mempty

@@ -1,6 +1,19 @@
-module Lib
-    ( someFunc
-    ) where
+module Lib where
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+import           Control.Monad
+
+-- | Identity Monad interlude
+newtype Foo a = Foo a
+
+-- Functor implemented using the Monad impl
+instance Functor Foo where
+  fmap = liftM
+
+-- Applicative implemented using the Monad impl
+instance Applicative Foo where
+  pure  = return
+  (<*>) = ap
+
+instance Monad Foo where
+  Foo x >>= f = f x
+-- | interlude end

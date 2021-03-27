@@ -3,6 +3,7 @@ module Adapter.HTTP.Main where
 import           ClassyPrelude           hiding ( delete )
 import           Network.HTTP.Types.Status      ( unauthorized401 )
 import           Network.Wai.Middleware.Gzip
+import           Web.Cookie
 import           Web.Scotty.Trans
 
 main :: IO ()
@@ -49,3 +50,12 @@ routes = do
   notFound $ text "404"
 
   defaultHandler $ \_ -> text "Something went terribly wrong :("
+
+getCookie :: (ScottyError e, Monad m) => Text -> ActionT e m (Maybe Text)
+getCookie key = do
+  mCookieStr <- header "Cookie"
+  return $ do
+    cookie <- parseCookies . encodeUtf8 . toStrict <$> mCookieStr
+    let bsKey = encodeUtf8 key
+    val <- lookup bsKey cookie
+    return $ decodeUtf8 val

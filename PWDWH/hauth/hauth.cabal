@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d757f25fce571f505806b8afd2de610067a7fe2519e77aefa005a2a992196b9c
+-- hash: 4ec3356c204789beeb492d71c2cafc865828239905950e3441463e5c7e4a886b
 
 name:           hauth
 version:        0.1.0.0
@@ -43,6 +43,7 @@ library
       aeson
     , base >=4.7 && <5
     , classy-prelude
+    , cookie
     , data-has
     , exceptions
     , hedis
@@ -75,6 +76,7 @@ executable hauth-exe
       aeson
     , base >=4.7 && <5
     , classy-prelude
+    , cookie
     , data-has
     , exceptions
     , hauth
@@ -109,6 +111,7 @@ test-suite hauth-test
       aeson
     , base >=4.7 && <5
     , classy-prelude
+    , cookie
     , data-has
     , exceptions
     , hauth

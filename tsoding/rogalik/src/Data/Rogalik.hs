@@ -7,10 +7,14 @@ type Rows = Int
 type Row = Int
 type Cols = Int
 type Col = Int
-
+type Width = Int
+type Height = Int
 newtype Index a =
   Index Int
   deriving (Eq, Ord, Ix, Show)
+
+data Weapon = Sword
+  deriving Show
 
 data Item
   = Gold Int
@@ -22,9 +26,6 @@ data Room = Room
   , roomRows  :: Rows
   , roomItems :: M.Map (Row, Col) Item
   }
-  deriving Show
-
-data Weapon = Sword
   deriving Show
 
 data Player = Player
@@ -40,5 +41,9 @@ data Rogalik = Rogalik
   , rogalikPlayer :: Player
   }
 
-mkRoom :: Rows -> Cols -> Room
-mkRoom rows cols = Room cols rows mempty
+data Display = Display
+  { displayWidth  :: Width
+  , displayHeight :: Height
+  , displayPixels :: Array (Int, Int) Char
+  }
+  deriving Show

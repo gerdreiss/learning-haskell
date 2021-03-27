@@ -9,6 +9,8 @@ type Cols = Int
 type Col = Int
 type Width = Int
 type Height = Int
+type Pixel = Char
+
 newtype Index a =
   Index Int
   deriving (Eq, Ord, Ix, Show)
@@ -44,6 +46,8 @@ data Rogalik = Rogalik
 data Display = Display
   { displayWidth  :: Width
   , displayHeight :: Height
-  , displayPixels :: Array (Int, Int) Char
+  , displayPixels :: Array (Row, Col) Pixel
   }
   deriving Show
+
+data Rect = Rect Row Col Width Height

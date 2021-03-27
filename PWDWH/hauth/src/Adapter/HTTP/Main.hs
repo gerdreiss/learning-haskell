@@ -2,6 +2,7 @@ module Adapter.HTTP.Main where
 
 import           ClassyPrelude           hiding ( delete )
 import           Network.HTTP.Types.Status      ( unauthorized401 )
+import           Network.Wai.Middleware.Gzip
 import           Web.Scotty.Trans
 
 main :: IO ()
@@ -9,6 +10,13 @@ main = scottyT 3000 id routes
 
 routes :: (MonadIO m) => ScottyT LText m ()
 routes = do
+  -- gzip
+  middleware $ gzip (def { gzipFiles = GzipCompress })
+  -- request logging
+  -- middleware logStdout
+  -- serve static files
+  -- middleware static
+
   get "/unauth" $ do
     status unauthorized401
     addHeader "serverName" "gandalfService"

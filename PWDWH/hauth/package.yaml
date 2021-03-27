@@ -38,6 +38,9 @@ dependencies:
 - template-haskell
 - time
 - time-lens
+- wai
+- wai-extra
+- wai-middleware-static
 
 default-extensions:
 - ConstraintKinds

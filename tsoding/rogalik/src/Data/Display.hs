@@ -5,8 +5,7 @@ import           Data.Geom
 import           Data.Room
 
 data Display = Display
-  { displayWidth  :: Width
-  , displayHeight :: Height
-  , displayPixels :: Array (Row, Col) Pixel
+  { displaySize   :: Size
+  , displayPixels :: Array Pos Pixel
   }
   deriving Show

@@ -18,7 +18,7 @@
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
 resolver:
-  url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/17/6.yaml
+  url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/17/8.yaml
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -41,10 +41,10 @@ packages:
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
 extra-deps:
-  - data-tree-print-0.1.0.2@sha256:d845e99f322df70e0c06d6743bf80336f5918d5423498528beb0593a2afc1703,1620
-  - ghc-exactprint-0.6.3.4@sha256:d17b9ab809e8db9811b13637f1d1d01a82b43e5fe4d72c6d073daadb3f72a921,9446
+  - digestive-functors-0.8.4.2@sha256:badff1797b6dcd860a48ed4558985b2f6bec501e1016fa5afd9d7d6b0d8e4c08,3364
+  - digestive-functors-aeson-1.1.27@sha256:a389cfeda1f5f376968b14afc631587abb93172e182b63422b8ddb3d8522c621,1584
   - postgresql-simple-migration-0.1.15.0@sha256:0e24e96908430f5caf9c1c1d9ca7c5c108e4e0409a255e2cbd77e8cd252dbb02,3879
-  - base64-bytestring-1.0.0.3@sha256:d5027ea6d63eab27cfa34eb1f5a05b6a5ee521dd176a06da3f7d80e117a88259,2352
+
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

@@ -25,6 +25,8 @@ dependencies:
 - aeson
 - cookie
 - data-has
+- digestive-functors
+- digestive-functors-aeson
 - exceptions
 - hedis
 - http-types

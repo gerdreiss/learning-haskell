@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 4ec3356c204789beeb492d71c2cafc865828239905950e3441463e5c7e4a886b
+-- hash: 109cfb74bc7bc4d66a4bd18cb3c8aa465938da5df95b057ba3051fa31bf21626
 
 name:           hauth
 version:        0.1.0.0
@@ -27,6 +27,7 @@ source-repository head
 
 library
   exposed-modules:
+      Adapter.HTTP.API.Auth
       Adapter.HTTP.Main
       Adapter.InMemory.Auth
       Adapter.PostgreSQL.Auth
@@ -45,6 +46,8 @@ library
     , classy-prelude
     , cookie
     , data-has
+    , digestive-functors
+    , digestive-functors-aeson
     , exceptions
     , hedis
     , http-types
@@ -78,6 +81,8 @@ executable hauth-exe
     , classy-prelude
     , cookie
     , data-has
+    , digestive-functors
+    , digestive-functors-aeson
     , exceptions
     , hauth
     , hedis
@@ -113,6 +118,8 @@ test-suite hauth-test
     , classy-prelude
     , cookie
     , data-has
+    , digestive-functors
+    , digestive-functors-aeson
     , exceptions
     , hauth
     , hedis

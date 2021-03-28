@@ -1,8 +1,11 @@
 module Control.Display where
 
+import           Control.Item
+import           Control.Room
 import           Data.Array
-import           Data.Coord
 import           Data.Display
+import           Data.Geom
+import           Data.Room
 
 mkDisplay :: Width -> Height -> Pixel -> Display
 mkDisplay width height pixel = Display width height pixels
@@ -26,6 +29,19 @@ fillDisplay pixel display = fillRect rect pixel display
   width  = displayWidth display
   height = displayHeight display
 
+fillRect :: Rect -> Pixel -> Display -> Display
+fillRect (Rect x y w h) pixel display = display
+  { displayPixels = displayPixels display // do
+                      x <- [x .. (x + w - 1)]
+                      y <- [y .. (y + h - 1)]
+                      return ((coordX, coordY), pixel)
+  }
+ where
+  width  = displayWidth display
+  height = displayHeight display
+  coordX = x `mod` width
+  coordY = y `mod` height
+
 drawPixel :: Col -> Row -> Pixel -> Display -> Display
 drawPixel x y = fillRect $ Rect x y 1 1
 
@@ -44,15 +60,6 @@ drawRect (Rect x y w h) pixel =
     . drawVLine x           y (y + h - 1) pixel
     . drawVLine (x + w - 1) y (y + h - 1) pixel
 
-fillRect :: Rect -> Pixel -> Display -> Display
-fillRect (Rect x y w h) pixel display = display
-  { displayPixels = displayPixels display // do
-                      x <- [x .. (x + w - 1)]
-                      y <- [y .. (y + h - 1)]
-                      return ((coordX, coordY), pixel)
-  }
- where
-  width  = displayWidth display
-  height = displayHeight display
-  coordX = x `mod` width
-  coordY = y `mod` height
+drawRoom :: Room -> Display -> Display
+drawRoom room = -- TODO draw items
+  fillRect (roomRect room) roomFloor

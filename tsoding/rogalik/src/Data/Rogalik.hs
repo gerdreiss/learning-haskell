@@ -3,10 +3,9 @@ module Data.Rogalik where
 import qualified Data.Map                      as M
 
 import           Data.Array
-import           Data.Coord
+import           Data.Geom
 import           Data.Item
 import           Data.Room
-
 
 newtype Index a =
   Index Int

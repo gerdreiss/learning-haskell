@@ -1,12 +1,8 @@
 module Data.Display where
 
 import           Data.Array
-import           Data.Coord
-
-type Width = Int
-type Height = Int
-
-type Pixel = Char
+import           Data.Geom
+import           Data.Room
 
 data Display = Display
   { displayWidth  :: Width
@@ -14,5 +10,3 @@ data Display = Display
   , displayPixels :: Array (Row, Col) Pixel
   }
   deriving Show
-
-data Rect = Rect Row Col Width Height

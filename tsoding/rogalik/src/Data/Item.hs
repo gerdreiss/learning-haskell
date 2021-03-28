@@ -5,5 +5,5 @@ data Weapon = Sword | Axe
 
 data Item
   = GoldItem Int
-  | ItemWeapon Weapon
+  | WeaponItem Weapon
   deriving (Show)

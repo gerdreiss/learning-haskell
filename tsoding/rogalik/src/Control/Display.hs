@@ -1,10 +1,13 @@
 module Control.Display where
 
+import qualified Data.Map                      as M
+
 import           Control.Item
 import           Control.Room
 import           Data.Array
 import           Data.Display
 import           Data.Geom
+import           Data.List
 import           Data.Room
 
 mkDisplay :: Width -> Height -> Pixel -> Display
@@ -25,41 +28,48 @@ showDisplay display = unlines
 fillDisplay :: Pixel -> Display -> Display
 fillDisplay pixel display = fillRect rect pixel display
  where
-  rect   = Rect 0 0 width height
+  rect   = Rect (Pos 0 0) (Size width height)
   width  = displayWidth display
   height = displayHeight display
 
 fillRect :: Rect -> Pixel -> Display -> Display
-fillRect (Rect x y w h) pixel display = display
+fillRect (Rect (Pos rectX rectY) (Size rectW rectH)) pixel display = display
   { displayPixels = displayPixels display // do
-                      x <- [x .. (x + w - 1)]
-                      y <- [y .. (y + h - 1)]
-                      return ((coordX, coordY), pixel)
+                      x <- [rectX .. (rectX + rectW - 1)]
+                      y <- [rectY .. (rectY + rectH - 1)]
+                      return ((x `mod` width, y `mod` height), pixel)
   }
  where
   width  = displayWidth display
   height = displayHeight display
-  coordX = x `mod` width
-  coordY = y `mod` height
 
-drawPixel :: Col -> Row -> Pixel -> Display -> Display
-drawPixel x y = fillRect $ Rect x y 1 1
+drawPixel :: Pos -> Pixel -> Display -> Display
+drawPixel (Pos x y) = fillRect $ Rect (Pos x y) (Size 1 1)
 
-drawVLine :: Col -> Row -> Row -> Pixel -> Display -> Display
-drawVLine col fromRow toRow =
-  fillRect $ Rect col fromRow 1 (toRow - fromRow + 1)
+drawVLine :: Pos -> Height -> Pixel -> Display -> Display
+drawVLine (Pos x y) height =
+  fillRect $ Rect (Pos x y) (Size 1 (height - y + 1))
 
-drawHLine :: Col -> Col -> Row -> Pixel -> Display -> Display
-drawHLine fromCol toCol row =
-  fillRect $ Rect fromCol row (toCol - fromCol + 1) 1
+drawHLine :: Pos -> Width -> Pixel -> Display -> Display
+drawHLine (Pos x y) width = fillRect $ Rect (Pos x y) (Size (width - x + 1) 1)
 
 drawRect :: Rect -> Pixel -> Display -> Display
-drawRect (Rect x y w h) pixel =
-  drawHLine x (x + w - 1) y pixel
-    . drawHLine x (x + w - 1) (y + h - 1) pixel
-    . drawVLine x           y (y + h - 1) pixel
-    . drawVLine (x + w - 1) y (y + h - 1) pixel
+drawRect (Rect (Pos x y) (Size w h)) pixel =
+  drawHLine (Pos x y) width pixel
+    . drawHLine (Pos x height) width pixel
+    . drawVLine (Pos x y)     height pixel
+    . drawVLine (Pos width y) height pixel
+ where
+  width  = x + w - 1
+  height = y + h - 1
 
 drawRoom :: Room -> Display -> Display
-drawRoom room = -- TODO draw items
-  fillRect (roomRect room) roomFloor
+drawRoom room display =
+  let items    = M.toList (roomItems room)
+      rect     = roomRect room
+      display' = fillRect rect roomFloor display
+  in  foldl' folderF display' items
+ where
+  (Rect (Pos roomX roomY) _) = roomRect room
+  folderF disp (Pos itemX itemY, item) =
+    drawPixel (Pos (roomX + itemX) (roomY + itemY)) (itemChar item) disp

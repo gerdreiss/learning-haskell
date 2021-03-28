@@ -6,13 +6,13 @@ type Row = Int
 type Width = Int
 type Height = Int
 
-type Cols = Width
-type Rows = Height
-
-type Pos = (Row, Col)
-type Size = (Height, Width)
-
 type Pixel = Char
 
-data Rect = Rect Row Col Width Height
-  deriving Show
+data Pos = Pos Row Col
+  deriving (Eq, Ord, Show)
+
+data Size = Size Height Width
+  deriving (Eq, Ord, Show)
+
+data Rect = Rect Pos Size
+  deriving (Eq, Ord, Show)

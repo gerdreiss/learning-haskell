@@ -13,8 +13,7 @@ newtype Index a =
 
 data Player = Player
   { playerRoom    :: Index Room
-  , playerRow     :: Row
-  , playerCol     :: Col
+  , playerPos     :: Pos
   , playerGold    :: Int
   , playerWeapons :: [Weapon]
   }

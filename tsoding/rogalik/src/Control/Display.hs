@@ -24,8 +24,10 @@ showDisplay (Display size@(Size width height) pixels) = unlines
   [ [ pixels ! Pos x y | x <- [0 .. width - 1] ] | y <- [0 .. height - 1] ]
 
 fillDisplay :: Pixel -> Display -> Display
-fillDisplay pixel display@(Display size _) = fillRect rect pixel display
-  where rect = Rect (Pos 0 0) size
+fillDisplay pixel display = fillRect rect pixel display
+ where
+  Display size _ = display
+  rect           = Rect (Pos 0 0) size
 
 fillRect :: Rect -> Pixel -> Display -> Display
 fillRect rect pixel display = display
@@ -35,8 +37,8 @@ fillRect rect pixel display = display
                       return (Pos (x `mod` width) (y `mod` height), pixel)
   }
  where
-  (Rect    (Pos  rectX rectY ) (Size rectW rectH)) = rect
-  (Display (Size width height) pixels            ) = display
+  Rect    (Pos  rectX rectY ) (Size rectW rectH) = rect
+  Display (Size width height) pixels             = display
 
 drawPixel :: Pos -> Pixel -> Display -> Display
 drawPixel (Pos x y) = fillRect $ Rect (Pos x y) (Size 1 1)
@@ -65,7 +67,7 @@ drawRoom room display =
       display' = fillRect rect roomFloor display
   in  foldl' folderF display' items
  where
-  rect                       = roomRect room
-  (Rect (Pos roomX roomY) _) = rect
-  folderF disp (Pos itemX itemY, item) =
-    drawPixel (Pos (roomX + itemX) (roomY + itemY)) (itemChar item) disp
+  rect                     = roomRect room
+  Rect (Pos roomX roomY) _ = rect
+  folderF dspl (Pos itemX itemY, item) =
+    drawPixel (Pos (roomX + itemX) (roomY + itemY)) (itemChar item) dspl

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 156f7b601e77625e9ede8e8434c4e0e6e9660194e15671792a1b9593ca3bc5d8
+-- hash: 5919380ab7118b45a2539f1f55ed3c5bb478627b53e806cfb5ca40ec0f5ac2d2
 
 name:           rogalik
 version:        0.1.0.0
@@ -28,6 +28,7 @@ source-repository head
 library
   exposed-modules:
       Control.Display
+      Control.Geom
       Control.Item
       Control.Rogalik
       Control.Room

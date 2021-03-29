@@ -24,9 +24,3 @@ instance Semigroup Size where
 
 instance Monoid Size where
   mempty = Size 0 0
-
-(^+^) :: Size -> Size -> Size
-(^+^) s1 s2 = s1 <> s2
-
-(^-^) :: Size -> Size -> Size
-(^-^) (Size w1 h1) (Size w2 h2) = Size (w1 - w2) (h1 - h2)

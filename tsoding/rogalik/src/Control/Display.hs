@@ -1,3 +1,5 @@
+{-# LANGUAGE TupleSections #-}
+
 module Control.Display where
 
 import qualified Data.Map                      as M
@@ -13,11 +15,9 @@ import           Data.Room
 mkDisplay :: Size -> Pixel -> Display
 mkDisplay size pixel = Display size pixels
  where
-  pixels = array
-    range
-    [ (Pos x y, pixel) | x <- [0 .. width - 1], y <- [0 .. height - 1] ]
-  range               = (Pos 0 0, Pos (width - 1) (height - 1))
-  (Size width height) = size
+  Size width height = size
+  cellRange         = (Pos 0 0, Pos (width - 1) (height - 1))
+  pixels            = array cellRange $ (, pixel) <$> range cellRange
 
 showDisplay :: Display -> String
 showDisplay (Display size@(Size width height) pixels) = unlines

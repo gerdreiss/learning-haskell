@@ -23,6 +23,7 @@ dependencies:
 - base >= 4.7 && < 5
 - classy-prelude
 - aeson
+- blaze-builder
 - cookie
 - data-has
 - digestive-functors
@@ -44,6 +45,7 @@ dependencies:
 - wai
 - wai-extra
 - wai-middleware-static
+
 
 default-extensions:
 - ConstraintKinds

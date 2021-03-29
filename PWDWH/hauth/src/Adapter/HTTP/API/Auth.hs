@@ -1,6 +1,7 @@
 module Adapter.HTTP.API.Auth where
 
 import           ClassyPrelude
+import           Adapter.HTTP.API.Auth
 import           Domain.Auth
 import           Text.Digestive.Form
 import           Text.Digestive.Types
@@ -11,8 +12,6 @@ authForm = Auth <$> "email" .: emailForm <*> "password" .: passwordForm
   emailForm    = validate (toResult . mkEmail) (text Nothing)
   passwordForm = validate (toResult . mkPassword) (text Nothing)
 
-toResult :: Either e a -> Result e a
-toResult = either Error Success
 
 verifyEmailForm :: (Monad m) => Form [Text] m VerificationCode
 verifyEmailForm = text Nothing

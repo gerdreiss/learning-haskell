@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 109cfb74bc7bc4d66a4bd18cb3c8aa465938da5df95b057ba3051fa31bf21626
+-- hash: 26ea80bae6aedfd2b7445651c39c87153191c3afffb8f4191d3a6d08a4706c99
 
 name:           hauth
 version:        0.1.0.0
@@ -28,6 +28,7 @@ source-repository head
 library
   exposed-modules:
       Adapter.HTTP.API.Auth
+      Adapter.HTTP.Common
       Adapter.HTTP.Main
       Adapter.InMemory.Auth
       Adapter.PostgreSQL.Auth
@@ -43,6 +44,7 @@ library
   build-depends:
       aeson
     , base >=4.7 && <5
+    , blaze-builder
     , classy-prelude
     , cookie
     , data-has
@@ -78,6 +80,7 @@ executable hauth-exe
   build-depends:
       aeson
     , base >=4.7 && <5
+    , blaze-builder
     , classy-prelude
     , cookie
     , data-has
@@ -115,6 +118,7 @@ test-suite hauth-test
   build-depends:
       aeson
     , base >=4.7 && <5
+    , blaze-builder
     , classy-prelude
     , cookie
     , data-has

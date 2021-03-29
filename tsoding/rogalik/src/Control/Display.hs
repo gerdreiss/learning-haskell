@@ -65,6 +65,7 @@ drawRoom room display =
       display' = fillRect rect roomFloor display
   in  foldl' folderF display' items
  where
-  rect@(Rect (Pos roomX roomY) _) = roomRect room
+  rect                       = roomRect room
+  (Rect (Pos roomX roomY) _) = rect
   folderF disp (Pos itemX itemY, item) =
     drawPixel (Pos (roomX + itemX) (roomY + itemY)) (itemChar item) disp

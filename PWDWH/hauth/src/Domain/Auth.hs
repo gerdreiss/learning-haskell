@@ -73,12 +73,14 @@ data RegistrationError
 data EmailVerificationError
   = EmailVerificationErrorInvalidEmail
   | EmailVerificationErrorInvalidCode
+  deriving(Show, Eq)
 
 data PasswordValidationError
   = PasswordValidationErrorLength Int
   | PasswordValidationErrorMustContainUpperCase
   | PasswordValidationErrorMustContainLowerCase
   | PasswordValidationErrorMustContainNumber
+  deriving(Show, Eq)
 
 data LoginError
   = LoginErrorInvalidAuth

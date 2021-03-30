@@ -24,3 +24,10 @@ instance Semigroup Size where
 
 instance Monoid Size where
   mempty = Size 0 0
+
+
+instance Semigroup Pos where
+  (<>) (Pos col1 row1) (Pos col2 row2) = Pos (col1 + col2) (row1 + row2)
+
+instance Monoid Pos where
+  mempty = Pos 0 0

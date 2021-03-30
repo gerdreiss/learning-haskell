@@ -8,8 +8,8 @@ import           Control.Item
 import           Control.Room
 import           Data.Array
 import           Data.Display
+import           Data.Foldable
 import           Data.Geom
-import           Data.List
 import           Data.Room
 
 mkDisplay :: Size -> Pixel -> Display
@@ -19,8 +19,8 @@ mkDisplay size pixel = Display size pixels
   cellRange         = (Pos 0 0, Pos (width - 1) (height - 1))
   pixels            = array cellRange $ (, pixel) <$> range cellRange
 
-showDisplay :: Display -> String
-showDisplay (Display size@(Size width height) pixels) = unlines
+renderDisplay :: Display -> String
+renderDisplay (Display size@(Size width height) pixels) = unlines
   [ [ pixels ! Pos x y | x <- [0 .. width - 1] ] | y <- [0 .. height - 1] ]
 
 fillDisplay :: Pixel -> Display -> Display

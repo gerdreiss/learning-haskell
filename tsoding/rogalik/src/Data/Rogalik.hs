@@ -17,9 +17,11 @@ data Player = Player
   , playerGold    :: Int
   , playerWeapons :: [Weapon]
   }
+  deriving Show
 
 data Rogalik = Rogalik
   { rogalikRooms  :: Array (Index Room) Room
   , rogalikPlayer :: Player
   }
+  deriving Show
 

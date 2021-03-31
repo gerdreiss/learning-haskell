@@ -2,7 +2,7 @@
 
 **WARNING! It's not finished!** But it draws a bunch of rooms. Which is cool I guess.
 
-![rogalik](https://upload.wikimedia.org/wikipedia/commons/7/73/Rogalik.jpg =213x200)
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Rogalik.jpg" alt="rogalik" style="width:200px;"/>
 
 ## Quick start
 

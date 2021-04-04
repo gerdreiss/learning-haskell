@@ -33,14 +33,6 @@ generateRogalik = Rogalik
     ]
   roomsCount = length rooms
 
-
-playerMove :: Direction -> Player -> Player
-playerMove direction player = player
-  { playerPos = newPos (playerPos player) (directionChanges direction)
-  }
-  where newPos (Pos x y) (changeX, changeY) = Pos (x + changeX) (y + changeY)
-
-
 renderPlayer :: Rogalik -> Display -> Display
 renderPlayer rogalik = drawPixel playerScreenPos playerPixel
  where
@@ -62,6 +54,12 @@ renderRooms rogalik display = foldl' draw display rooms
 renderRogalik :: Rogalik -> Display -> Display
 renderRogalik rogalik = renderPlayer rogalik . renderRooms rogalik
 
+
+playerMove :: Direction -> Player -> Player
+playerMove direction player = player
+  { playerPos = newPos (playerPos player) (directionChanges direction)
+  }
+  where newPos (Pos x y) (changeX, changeY) = Pos (x + changeX) (y + changeY)
 
 rogalikMove :: Direction -> Rogalik -> Rogalik
 rogalikMove direction rogalik = rogalik

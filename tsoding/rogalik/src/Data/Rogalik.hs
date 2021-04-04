@@ -22,6 +22,7 @@ data Player = Player
 data Rogalik = Rogalik
   { rogalikRooms  :: Array (Index Room) Room
   , rogalikPlayer :: Player
+  , rogalikQuit   :: Bool
   }
   deriving Show
 

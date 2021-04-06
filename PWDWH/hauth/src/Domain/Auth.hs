@@ -1,4 +1,4 @@
-{-# LANGUAGE AllowAmbiguousTypes     #-}
+{-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE ConstrainedClassMethods #-}
 
 module Domain.Auth
@@ -31,21 +31,21 @@ module Domain.Auth
 
     -- * util
     randomVCode,
-    emailVerificationCode
+    emailVerificationCode,
   )
 where
 
-import           ClassyPrelude
-import           Control.Monad.Except
-import           Domain.Validation
-import           Katip
-import           Text.Regex.PCRE.Heavy
-import           Text.StringRandom
+import ClassyPrelude
+import Control.Monad.Except
+import Domain.Validation
+import Katip
+import Text.Regex.PCRE.Heavy
+import Text.StringRandom
 
---
+-- ^
 --
 -- Types
---
+
 type VerificationCode = Text
 type UserId = Int
 type SessionId = Text
@@ -61,7 +61,7 @@ newtype Password = Password
   deriving (Show, Eq)
 
 data Auth = Auth
-  { authEmail    :: Email,
+  { authEmail :: Email,
     authPassword :: Password
   }
   deriving (Show, Eq)
@@ -73,14 +73,14 @@ data RegistrationError
 data EmailVerificationError
   = EmailVerificationErrorInvalidEmail
   | EmailVerificationErrorInvalidCode
-  deriving(Show, Eq)
+  deriving (Show, Eq)
 
 data PasswordValidationError
   = PasswordValidationErrorLength Int
   | PasswordValidationErrorMustContainUpperCase
   | PasswordValidationErrorMustContainLowerCase
   | PasswordValidationErrorMustContainNumber
-  deriving(Show, Eq)
+  deriving (Show, Eq)
 
 data LoginError
   = LoginErrorInvalidAuth
@@ -129,7 +129,7 @@ instance EmailVerificationNotif IO where
 -- Functions
 --
 randomVCode :: Int -> IO Text
-randomVCode len = stringRandomIO $ "[A-Za-z0-9]{"<> tshow len <> "}"
+randomVCode len = stringRandomIO $ "[A-Za-z0-9]{" <> tshow len <> "}"
 
 emailVerificationCode :: Email -> IO Text
 emailVerificationCode email = (\code -> rawEmail email <> "_" <> code) <$> randomVCode 16

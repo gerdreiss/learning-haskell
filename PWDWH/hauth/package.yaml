@@ -24,10 +24,13 @@ dependencies:
 - classy-prelude
 - aeson
 - blaze-builder
+- blaze-html
 - cookie
 - data-has
 - digestive-functors
 - digestive-functors-aeson
+- digestive-functors-blaze
+- digestive-functors-scotty
 - exceptions
 - hedis
 - http-types
@@ -45,6 +48,7 @@ dependencies:
 - wai
 - wai-extra
 - wai-middleware-static
+- warp
 
 
 default-extensions:

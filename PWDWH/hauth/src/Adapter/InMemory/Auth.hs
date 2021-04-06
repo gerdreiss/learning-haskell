@@ -1,6 +1,7 @@
 module Adapter.InMemory.Auth where
 
 import qualified Domain.Auth                   as D
+
 import           ClassyPrelude
 import           Control.Monad.Except
 import           Data.Has
@@ -8,12 +9,12 @@ import           Data.Has
 type InMemory r m = (Has (TVar State) r, MonadReader r m, MonadIO m)
 
 data State = State
-  { stateAuths :: [(D.UserId, D.Auth)],
-    stateUnverifiedEmails :: Map D.VerificationCode D.Email,
-    stateVerifiedEmails :: Set D.Email,
-    stateUserIdCounter :: Int,
-    stateNotifications :: Map D.Email D.VerificationCode,
-    stateSessions :: Map D.SessionId D.UserId
+  { stateAuths            :: [(D.UserId, D.Auth)]
+  , stateUnverifiedEmails :: Map D.VerificationCode D.Email
+  , stateVerifiedEmails   :: Set D.Email
+  , stateUserIdCounter    :: Int
+  , stateNotifications    :: Map D.Email D.VerificationCode
+  , stateSessions         :: Map D.SessionId D.UserId
   }
   deriving (Show, Eq)
 
@@ -96,7 +97,8 @@ findEmailFromUserId uId = do
   let mayAuth = map snd . find ((uId ==) . fst) $ stateAuths state
   return $ D.authEmail <$> mayAuth
 
-notifyEmailVerification :: InMemory r m => D.Email -> D.VerificationCode -> m ()
+notifyEmailVerification
+  :: InMemory r m => D.Email -> D.VerificationCode -> m ()
 notifyEmailVerification email vCode = do
   tvar <- asks getter
   atomically $ do

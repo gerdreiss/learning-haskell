@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 26ea80bae6aedfd2b7445651c39c87153191c3afffb8f4191d3a6d08a4706c99
+-- hash: abe8360b19851b71beb6ac5a40d65b903b0985ff434f4bf7a34a872fa72016ba
 
 name:           hauth
 version:        0.1.0.0
@@ -28,6 +28,7 @@ source-repository head
 library
   exposed-modules:
       Adapter.HTTP.API.Auth
+      Adapter.HTTP.API.Common
       Adapter.HTTP.Common
       Adapter.HTTP.Main
       Adapter.InMemory.Auth
@@ -45,11 +46,14 @@ library
       aeson
     , base >=4.7 && <5
     , blaze-builder
+    , blaze-html
     , classy-prelude
     , cookie
     , data-has
     , digestive-functors
     , digestive-functors-aeson
+    , digestive-functors-blaze
+    , digestive-functors-scotty
     , exceptions
     , hedis
     , http-types
@@ -67,6 +71,7 @@ library
     , wai
     , wai-extra
     , wai-middleware-static
+    , warp
   default-language: Haskell2010
 
 executable hauth-exe
@@ -81,11 +86,14 @@ executable hauth-exe
       aeson
     , base >=4.7 && <5
     , blaze-builder
+    , blaze-html
     , classy-prelude
     , cookie
     , data-has
     , digestive-functors
     , digestive-functors-aeson
+    , digestive-functors-blaze
+    , digestive-functors-scotty
     , exceptions
     , hauth
     , hedis
@@ -104,6 +112,7 @@ executable hauth-exe
     , wai
     , wai-extra
     , wai-middleware-static
+    , warp
   default-language: Haskell2010
 
 test-suite hauth-test
@@ -119,11 +128,14 @@ test-suite hauth-test
       aeson
     , base >=4.7 && <5
     , blaze-builder
+    , blaze-html
     , classy-prelude
     , cookie
     , data-has
     , digestive-functors
     , digestive-functors-aeson
+    , digestive-functors-blaze
+    , digestive-functors-scotty
     , exceptions
     , hauth
     , hedis
@@ -142,4 +154,5 @@ test-suite hauth-test
     , wai
     , wai-extra
     , wai-middleware-static
+    , warp
   default-language: Haskell2010

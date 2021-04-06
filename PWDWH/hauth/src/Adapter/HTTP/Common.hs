@@ -13,18 +13,6 @@ import           Network.HTTP.Types.Status
 import           Web.Cookie
 import           Web.Scotty.Trans
 
-parseAndValidateJSON
-  :: (ScottyError e, MonadIO m, ToJSON v) => DF.Form v m a -> ActionT e m a
-parseAndValidateJSON form = do
-  val              <- jsonData `rescue` (\_ -> return Null)
-  validationResult <- lift $ DF.digestJSON form val
-  case validationResult of
-    (view, Nothing) -> do
-      status status400
-      json $ DF.jsonErrors view
-      finish
-    (_, Just result) -> return result
-
 setCookie :: (ScottyError e, Monad m) => SetCookie -> ActionT e m ()
 setCookie =
   setHeader "Set-Cookie" . decodeUtf8 . toLazyByteString . renderSetCookie
@@ -61,16 +49,6 @@ getCurrentUserId = do
   case maybeSessionId of
     Nothing  -> return Nothing
     Just sId -> lift $ resolveSessionId sId
-
-reqCurrentUserId :: (SessionRepo m, ScottyError e) => ActionT e m UserId
-reqCurrentUserId = do
-  maybeUserId <- getCurrentUserId
-  case maybeUserId of
-    Nothing -> do
-      status status401
-      json ("AuthRequired" :: Text)
-      finish
-    Just userId -> return userId
 
 
 

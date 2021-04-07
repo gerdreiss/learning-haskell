@@ -2,10 +2,11 @@ module Lib
   ( someFunc
   ) where
 
-import qualified Adapter.HTTP.Main as HTTP
+import qualified Adapter.HTTP.Main             as HTTP
 import qualified Adapter.InMemory.Auth         as M
 import qualified Adapter.PostgreSQL.Auth       as PG
 import qualified Adapter.Redis.Auth            as Redis
+
 import           ClassyPrelude
 import           Control.Monad.Catch            ( MonadThrow )
 import           Control.Monad.Except

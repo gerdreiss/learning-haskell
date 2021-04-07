@@ -1,4 +1,4 @@
-module Adapter.HTTP.Main where
+module Adapter.HTTP.API.Main where
 
 import qualified Adapter.HTTP.API.Auth         as AuthAPI
 

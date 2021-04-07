@@ -2,12 +2,9 @@ module Adapter.HTTP.API.Auth where
 
 import qualified Text.Digestive.Form           as DF
 
-
+import           Adapter.HTTP.API.Common
 import           Adapter.HTTP.Common
 import           ClassyPrelude
-import           Data.Aeson              hiding ( (.:)
-                                                , json
-                                                )
 import           Domain.Auth
 import           Katip
 import           Network.HTTP.Types.Status

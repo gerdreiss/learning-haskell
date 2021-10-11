@@ -20,5 +20,6 @@ Learning Haskell with
 * Video [JSON Parser 100% From Scratch in Haskell](https://www.youtube.com/watch?v=N9RUqGYuGfw) by [Tsoding](https://www.youtube.com/channel/UCEbYhDd6c6vngsF5PQpFVWg)
 * Video [AoC-2020 Day 10](https://www.youtube.com/watch?v=LjrCckaHjB0) by [Tsoding](https://www.youtube.com/channel/UCEbYhDd6c6vngsF5PQpFVWg)
 * Stream [Quick Rogue-Like Game in Haskell](https://www.twitch.tv/videos/962608412) by [Tsoding](https://www.twitch.tv/tsoding)
+* Video [Spam Filter in Haskell](https://www.youtube.com/watch?v=s74qbeeBb9U) by [Tsoding](https://www.youtube.com/channel/UCrqM0Ym_NbK1fqeQG2VIohg)
 
 * Haskell Exercises [exercism.io](http://exercism.io/languages/haskell/about)

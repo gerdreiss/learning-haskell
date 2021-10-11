@@ -6,26 +6,33 @@ import qualified Data.Text.IO                  as T
 
 import           Data.Char                      ( isAlphaNum )
 import           Data.Foldable                  ( Foldable(fold) )
-import           Data.Maybe                     ( fromMaybe )
+import           Data.Maybe                     ( fromMaybe
+                                                , isJust
+                                                )
 import           System.Directory               ( listDirectory )
 
 import           Prelude                 hiding ( Word )
 
-newtype Word =
-  Word T.Text
-  deriving (Show, Read, Eq, Ord)
-
-newtype Bow =
-  Bow
-    { bowToMap :: M.Map Word Int
-    }
-  deriving (Show)
+newtype Word = Word T.Text deriving (Show, Read, Eq, Ord)
+newtype Bow  = Bow { bowToMap :: M.Map Word Int } deriving (Show)
 
 instance Semigroup Bow where
   Bow bow1 <> Bow bow2 = Bow $ M.unionWith (+) bow1 bow2
 
 instance Monoid Bow where
   mempty = Bow M.empty
+
+data SpamClassifier = SpamClassifier
+  { spam :: Bow
+  , ham  :: Bow
+  }
+  deriving Show
+
+loadSpamClassifier :: IO SpamClassifier
+loadSpamClassifier = do
+  spam <- bowFromFolder "./.data/train/spam/"
+  ham  <- bowFromFolder "./.data/train/ham/"
+  return $ SpamClassifier spam ham
 
 mkWord :: T.Text -> Word
 mkWord = Word . T.toUpper
@@ -56,23 +63,21 @@ bowFromFolder :: FilePath -> IO Bow
 bowFromFolder folderPath =
   fold <$> (listDirectory folderPath >>= mapM (bowFromFile . (folderPath <>)))
 
-spamBow :: IO Bow
-spamBow = bowFromFolder "./.data/train/spam/"
+wordSeen :: SpamClassifier -> Word -> Bool
+wordSeen sc w = isJust sm || isJust hm
+ where
+  sm = M.lookup w . bowToMap . spam $ sc
+  hm = M.lookup w . bowToMap . ham $ sc
 
-hamBow :: IO Bow
-hamBow = bowFromFolder "./.data/train/ham/"
+spamProbabilityWord :: SpamClassifier -> Word -> Float
+spamProbabilityWord sc w = if pws + phs == 0.0 then 0.0 else pws / (pws + phs)
+ where
+  pws = wordProbability w . spam $ sc
+  phs = wordProbability w . ham $ sc
 
-spamProbabilityWord :: Word -> IO Float
-spamProbabilityWord w = do
-  pws <- wordProbability w <$> spamBow
-  phs <- wordProbability w <$> hamBow
-  let p = if pws + phs == 0.0 then 0.0 else pws / (pws + phs)
-  return p
-
-spamProbabilityText :: T.Text -> IO Float
-spamProbabilityText text = do
-  ps <- mapM spamProbabilityWord (normalizeTextToWords text)
-  let pp  = product ps
-      ipp = product $ map (1.0 -) ps
-      p   = if pp + ipp == 0.0 then 0.0 else pp / (pp + ipp)
-  return p
+spamProbabilityText :: SpamClassifier -> T.Text -> Float
+spamProbabilityText sc text = if pp + ipp == 0.0 then 0.0 else pp / (pp + ipp)
+ where
+  ps  = map (spamProbabilityWord sc) (normalizeTextToWords text)
+  pp  = product ps
+  ipp = product $ map (1.0 -) ps
